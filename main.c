@@ -26,23 +26,19 @@ int	ft_atoi(const char *nptr)
 	return (result * sign);
 }
 
-//verifie si les arguments rentres sont valides
-int	ft_verif_args(int ac, char **av)
-{
-	
-}
-
 int main(int ac, char **av)
 {
+	t_struct jsp;
 	if (ac > 6)
 		printf("trop d'arguments\n");
 	else if (ac < 5)
 		printf("pas assez d'arguments\n");
 	else if(ac == 6 || ac == 5)
 	{
-		if(ft_verif_args(ac, av))
+		if(ft_verif_args(ac, av, &jsp))
 			printf("erreur : arg\n");
 		else
-			printf("parfait\n");    
+			printf("parfait\n"); 
+	}   
 	return (0);
 }

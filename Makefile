@@ -2,6 +2,7 @@ SRCDIR = src
 OBJDIR = points_o
 
 SRCS = main.c \
+	checker.c \
 
 OBJS = $(addprefix $(OBJDIR)/, $(notdir $(SRCS:.c=.o)))
 
