@@ -6,7 +6,7 @@
 /*   By: ilselbon <ilselbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 22:13:42 by ilselbon          #+#    #+#             */
-/*   Updated: 2023/04/26 22:15:05 by ilselbon         ###   ########.fr       */
+/*   Updated: 2023/04/26 22:30:47 by ilselbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include <pthread.h>
 # include <stdio.h>
+# include <stdlib.h>
 
 typedef struct s_struct
 {
@@ -52,7 +53,8 @@ void			*ft_philo(int *i);
 
 // listes chainees
 
-void			ft_lstadd_back(t_philosophe **lst, t_philosophe *new);
+void			ft_vide_liste(t_philosophe **pile);
 t_philosophe	*ft_lstnew(int content);
+t_philosophe	*ft_lstadd_back(t_philosophe **lst, t_philosophe *new);
 
 #endif

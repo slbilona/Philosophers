@@ -6,7 +6,7 @@
 /*   By: ilselbon <ilselbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 22:10:37 by ilselbon          #+#    #+#             */
-/*   Updated: 2023/04/26 22:16:53 by ilselbon         ###   ########.fr       */
+/*   Updated: 2023/04/26 22:27:34 by ilselbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,8 @@ int	main(int ac, char **av)
 	{
 		if (ft_verif_args(ac, av, &jsp))
 			printf("erreur : arg\n");
+		else if (jsp.philosophes == 0)
+			return (printf("\n"), 0);
 		else
 			thread_philos(&jsp);
 	}

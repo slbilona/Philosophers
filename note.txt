@@ -4,6 +4,7 @@ fonctons a reproduire :
 
 trucs a ajouter :
 - dans le checker : que le nombre de philosophes ne soit pas superieur a PTHREAD_THREADS_MAX
+- free la liste chainee a la fin
 
 idee :
 creer un maillon de liste chainee pour chaque philosophe et ses fouchettes,
