@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   checker.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ilselbon <ilselbon@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/04/26 22:10:32 by ilselbon          #+#    #+#             */
+/*   Updated: 2023/04/26 22:15:46 by ilselbon         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "philosophers.h"
 
 // Vérifie si le char qui lui est envoyé est un chiffre.
@@ -11,7 +23,7 @@ int	ft_isdigit(int c)
 // Vérifie s'il n'y a que des chiffres entrés en arguments.
 int	ft_chiffres(char **av, int j, int i)
 {
-	int o;
+	int	o;
 
 	j = 1;
 	while (av[j])
@@ -41,8 +53,6 @@ int	ft_chiffres(char **av, int j, int i)
 // Vérifie si les arguments entrés sont valides.
 int	ft_verif_args(int ac, char **av, t_struct *jsp)
 {
-	int i;
-	i = 0;
 	if (!ft_chiffres(av, 1, 0))
 		return (1);
 	jsp->philosophes = ft_atoi(av[1]);
@@ -55,7 +65,8 @@ int	ft_verif_args(int ac, char **av, t_struct *jsp)
 		if (jsp->notepme < 0)
 			return (1);
 	}
-	if (jsp->philosophes < 0 || jsp->ttd < 0 || jsp->tte < 0 || jsp->tts < 0)
+	if (jsp->philosophes < 0 || jsp->ttd < 0 || jsp->tte < 0
+		|| jsp->tts < 0 || jsp->philosophes > 1024)
 		return (1);
 	return (0);
 }

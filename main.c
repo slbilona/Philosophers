@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ilselbon <ilselbon@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/04/26 22:10:37 by ilselbon          #+#    #+#             */
+/*   Updated: 2023/04/26 22:16:53 by ilselbon         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "philosophers.h"
 
 //transforme une string en int
@@ -26,19 +38,20 @@ int	ft_atoi(const char *nptr)
 	return (result * sign);
 }
 
-int main(int ac, char **av)
+int	main(int ac, char **av)
 {
-	t_struct jsp;
+	t_struct	jsp;
+
 	if (ac > 6)
 		printf("trop d'arguments\n");
 	else if (ac < 5)
 		printf("pas assez d'arguments\n");
-	else if(ac == 6 || ac == 5)
+	else if (ac == 6 || ac == 5)
 	{
-		if(ft_verif_args(ac, av, &jsp))
+		if (ft_verif_args(ac, av, &jsp))
 			printf("erreur : arg\n");
 		else
-			printf("parfait\n"); 
-	}   
+			thread_philos(&jsp);
+	}
 	return (0);
 }

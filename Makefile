@@ -4,6 +4,7 @@ OBJDIR = points_o
 SRCS = main.c \
 	checker.c \
 	creation_thread.c \
+	listes_chainees.c \
 
 OBJS = $(addprefix $(OBJDIR)/, $(notdir $(SRCS:.c=.o)))
 
