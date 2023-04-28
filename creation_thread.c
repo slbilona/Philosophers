@@ -6,7 +6,7 @@
 /*   By: ilselbon <ilselbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 22:10:30 by ilselbon          #+#    #+#             */
-/*   Updated: 2023/04/28 17:16:38 by ilselbon         ###   ########.fr       */
+/*   Updated: 2023/04/28 17:40:15 by ilselbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,14 @@ void ft_initialisation(t_philosophe *actuel)
 	}
 }
 
-int ft_thread_philo(t_philosophe )
+int ft_thread_philo(t_philosophe **premier)
 {
+	t_philosophe *actuel;
+	int i;
 	int	ret;
 
+	i = 0;
+	actuel = *premier;
 	while(actuel)
 	{
 		ret = pthread_create(&actuel->philo, NULL, (void *)ft_philo, &i);
@@ -49,7 +53,10 @@ int ft_thread_philo(t_philosophe )
 			printf("le join numeoro %d a echoue\n", i);
 			return (1);
 		}
+		actuel = actuel->next;
+		i++;
 	}
+	return (0);
 }
 
 int	ft_creation_table(t_struct *jsp)
@@ -83,11 +90,12 @@ int	ft_creation_table(t_struct *jsp)
 		}
 		actuel->i = i;
 		actuel->philo = i;
-		
 		printf("affiche maillon 1 :\ni : %d\nfouchette droite : %d\nnb de repas : %d\n----------\n\n", actuel->i, actuel->fourchette_d, actuel->nb_de_repas);
 		temp = actuel;
 		i++;
 	}
+	if (ft_thread_philo(&premier))
+		return (ft_vide_liste(&premier));
 	ft_vide_liste(&premier);
 	printf("parfait\n");
 	return (0);

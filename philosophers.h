@@ -6,7 +6,7 @@
 /*   By: ilselbon <ilselbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 22:13:42 by ilselbon          #+#    #+#             */
-/*   Updated: 2023/04/28 16:11:51 by ilselbon         ###   ########.fr       */
+/*   Updated: 2023/04/28 17:39:28 by ilselbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,12 +49,13 @@ int				ft_verif_args(int ac, char **av, t_struct *jsp);
 
 // creation_thread
 
-int				thread_philos();
+int ft_thread_philo(t_philosophe **premier);
+int	ft_creation_table(t_struct *jsp);
 void			*ft_philo(int *i);
 
 // listes chainees
 
-void			ft_vide_liste(t_philosophe **pile);
+int	ft_vide_liste(t_philosophe **pile);
 t_philosophe	*ft_lstnew(int content);
 t_philosophe	*ft_lstadd_back(t_philosophe **lst, t_philosophe *new);
 
