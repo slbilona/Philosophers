@@ -6,7 +6,7 @@
 /*   By: ilselbon <ilselbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 22:13:42 by ilselbon          #+#    #+#             */
-/*   Updated: 2023/04/26 22:30:47 by ilselbon         ###   ########.fr       */
+/*   Updated: 2023/04/28 16:11:51 by ilselbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include <pthread.h>
 # include <stdio.h>
 # include <stdlib.h>
+# include <string.h>
 
 typedef struct s_struct
 {
