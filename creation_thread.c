@@ -6,7 +6,7 @@
 /*   By: ilselbon <ilselbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 22:10:30 by ilselbon          #+#    #+#             */
-/*   Updated: 2023/04/28 19:15:35 by ilselbon         ###   ########.fr       */
+/*   Updated: 2023/04/28 19:24:41 by ilselbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,10 @@ void	*ft_philo(int *i)
 	return (NULL);
 }
 
-void ft_initialisation(t_philosophe *actuel)
+// initialise chaque maillon de la liste chainee
+void	ft_initialisation(t_philosophe *actuel)
 {
-	if(actuel)
+	if (actuel)
 	{
 		actuel->i = 0;
 		actuel->fourchette_g = NULL;
@@ -31,15 +32,16 @@ void ft_initialisation(t_philosophe *actuel)
 	}
 }
 
-int ft_thread_philo(t_philosophe **premier)
+// initialise autant de thread qu'il y a de philosophes
+int	ft_thread_philo(t_philosophe **premier)
 {
-	t_philosophe *actuel;
-	int i;
-	int	ret;
+	t_philosophe	*actuel;
+	int				ret;
+	int				i;
 
 	i = 0;
 	actuel = *premier;
-	while(actuel)
+	while (actuel)
 	{
 		ret = pthread_create(&actuel->philo, NULL, (void *)ft_philo, &i);
 		if (ret != 0)
@@ -59,6 +61,7 @@ int ft_thread_philo(t_philosophe **premier)
 	return (0);
 }
 
+// Cree la liste chainee et les thread
 int	ft_creation_table(t_struct *jsp)
 {
 	int				i;
@@ -89,7 +92,7 @@ int	ft_creation_table(t_struct *jsp)
 		temp = actuel;
 		i++;
 	}
-	if(i >= 2)
+	if (i >= 2)
 		premier->fourchette_g = &actuel->fourchette_d;
 	if (ft_thread_philo(&premier))
 		return (ft_vide_liste(&premier));

@@ -6,7 +6,7 @@
 /*   By: ilselbon <ilselbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 22:12:42 by ilselbon          #+#    #+#             */
-/*   Updated: 2023/04/28 18:42:53 by ilselbon         ###   ########.fr       */
+/*   Updated: 2023/04/28 19:22:42 by ilselbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,12 @@ t_philosophe	*ft_lstnew(int i)
 	return (new);
 }
 
+// ajoute un maillon a la fin de la liste chainee
 t_philosophe	*ft_lstadd_back(t_philosophe **lst, t_philosophe *new)
 {
 	t_philosophe	*actuel;
 
-	if(new)
+	if (new)
 	{
 		actuel = *lst;
 		while (actuel->next)
