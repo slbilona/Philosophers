@@ -6,7 +6,7 @@
 /*   By: ilselbon <ilselbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 22:10:37 by ilselbon          #+#    #+#             */
-/*   Updated: 2023/04/28 17:36:43 by ilselbon         ###   ########.fr       */
+/*   Updated: 2023/04/28 18:46:07 by ilselbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,12 +48,10 @@ int	main(int ac, char **av)
 		printf("pas assez d'arguments\n");
 	else if (ac == 6 || ac == 5)
 	{
-		if (ft_verif_args(ac, av, &jsp))
-			printf("erreur : arg\n");
-		else if (jsp.philosophes == 0)
-			return (printf("\n"), 0);
-		else
+		if (!ft_verif_args(ac, av, &jsp))
 			ft_creation_table(&jsp);
+		else if (jsp.philosophes == 0)
+			return (0);
 	}
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: ilselbon <ilselbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 22:10:30 by ilselbon          #+#    #+#             */
-/*   Updated: 2023/04/28 17:40:15 by ilselbon         ###   ########.fr       */
+/*   Updated: 2023/04/28 19:15:35 by ilselbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int ft_thread_philo(t_philosophe **premier)
 		ret = pthread_join(actuel->philo, NULL);
 		if (ret != 0)
 		{
-			printf("le join numeoro %d a echoue\n", i);
+			printf("le join numero %d a echoue\n", i);
 			return (1);
 		}
 		actuel = actuel->next;
@@ -72,7 +72,7 @@ int	ft_creation_table(t_struct *jsp)
 		return (1);
 	actuel = premier;
 	ft_initialisation(actuel);
-	actuel->fourchette_d = 5;
+	actuel->fourchette_d = i + 2;
 	while (i < jsp->philosophes)
 	{
 		if (i != 0)
@@ -82,18 +82,15 @@ int	ft_creation_table(t_struct *jsp)
 				return (1);
 			ft_initialisation(actuel);
 			actuel->fourchette_g = &temp->fourchette_d;
-			if(i == 1)
-				actuel->fourchette_d = 6;
-			else
-				actuel->fourchette_d = 7;
-			printf("affiche maillon 1 :\ni : %d\nfouchette gauche : %d\nfouchette droite : %d\nnb de repas : %d\n----------\n\n", actuel->i, *actuel->fourchette_g, actuel->fourchette_d, actuel->nb_de_repas);
+			actuel->fourchette_d = i + 2;
 		}
 		actuel->i = i;
 		actuel->philo = i;
-		printf("affiche maillon 1 :\ni : %d\nfouchette droite : %d\nnb de repas : %d\n----------\n\n", actuel->i, actuel->fourchette_d, actuel->nb_de_repas);
 		temp = actuel;
 		i++;
 	}
+	if(i >= 2)
+		premier->fourchette_g = &actuel->fourchette_d;
 	if (ft_thread_philo(&premier))
 		return (ft_vide_liste(&premier));
 	ft_vide_liste(&premier);

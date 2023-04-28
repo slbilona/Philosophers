@@ -6,7 +6,7 @@
 /*   By: ilselbon <ilselbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 22:12:42 by ilselbon          #+#    #+#             */
-/*   Updated: 2023/04/28 17:38:26 by ilselbon         ###   ########.fr       */
+/*   Updated: 2023/04/28 18:42:53 by ilselbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,12 +29,16 @@ t_philosophe	*ft_lstadd_back(t_philosophe **lst, t_philosophe *new)
 {
 	t_philosophe	*actuel;
 
-	actuel = *lst;
-	while (actuel->next)
-		actuel = actuel->next;
-	actuel->next = new;
-	new->next = NULL;
-	return (new);
+	if(new)
+	{
+		actuel = *lst;
+		while (actuel->next)
+			actuel = actuel->next;
+		actuel->next = new;
+		new->next = NULL;
+		return (new);
+	}
+	return (NULL);
 }
 
 int	ft_vide_liste(t_philosophe **pile)

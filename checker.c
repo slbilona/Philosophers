@@ -6,7 +6,7 @@
 /*   By: ilselbon <ilselbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 22:10:32 by ilselbon          #+#    #+#             */
-/*   Updated: 2023/04/26 22:15:46 by ilselbon         ###   ########.fr       */
+/*   Updated: 2023/04/28 18:35:26 by ilselbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,10 +63,13 @@ int	ft_verif_args(int ac, char **av, t_struct *jsp)
 	{
 		jsp->notepme = ft_atoi(av[5]);
 		if (jsp->notepme < 0)
-			return (1);
+			return (printf("Erreur : aucun argument ne peut etre inferieur a 0.\n"), 1);
 	}
-	if (jsp->philosophes < 0 || jsp->ttd < 0 || jsp->tte < 0
-		|| jsp->tts < 0 || jsp->philosophes > 1024)
-		return (1);
+	if (jsp->philosophes < 0 || jsp->ttd < 0 || jsp->tte < 0 || jsp->tts < 0)
+		return (printf("Erreur : aucun argument ne peut etre inferieur a 0.\n"), 1);
+	else if(jsp->philosophes > 1024)
+		return (printf("Erreur : il ne peut y avoir plus de 1024 philosophes.\n"), 1);
+	else if (jsp->philosophes == 0)
+		return (printf("Erreur : il n'y a pas de philosophes\n"), 1);
 	return (0);
 }
