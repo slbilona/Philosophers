@@ -6,7 +6,7 @@
 /*   By: ilselbon <ilselbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 22:12:42 by ilselbon          #+#    #+#             */
-/*   Updated: 2023/04/28 19:22:42 by ilselbon         ###   ########.fr       */
+/*   Updated: 2023/05/04 22:14:01 by ilselbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@ t_philosophe	*ft_lstnew(int i)
 	new = malloc(sizeof(t_philosophe));
 	if (!new)
 		return (NULL);
-	new->fourchette_d = 0;
+	// new->fourchette_d = 0;
+	pthread_mutex_init(&new->fourchette_d, NULL);
 	new->i = i;
 	new->next = NULL;
 	return (new);

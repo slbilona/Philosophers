@@ -6,7 +6,7 @@
 /*   By: ilselbon <ilselbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 22:13:42 by ilselbon          #+#    #+#             */
-/*   Updated: 2023/04/28 19:20:03 by ilselbon         ###   ########.fr       */
+/*   Updated: 2023/05/04 22:26:46 by ilselbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,8 @@ typedef struct s_struct
 typedef struct s_philosophe
 {
 	int					i;
-	int					*fourchette_g;
-	int					fourchette_d;
+	void				*fourchette_g;
+	pthread_mutex_t		fourchette_d;
 	int					nb_de_repas;
 	pthread_t			philo;
 	struct s_philosophe	*next;
@@ -49,9 +49,10 @@ int				ft_verif_args(int ac, char **av, t_struct *jsp);
 
 // creation_thread
 
-int				ft_thread_philo(t_philosophe **premier);
 int				ft_creation_table(t_struct *jsp);
-void			*ft_philo(int *i);
+int				ft_thread_philo(t_philosophe **premier);
+int				ft_initialisation(t_philosophe *actuel);
+void			*ft_philo(t_philosophe *actuel);
 
 // listes chainees
 

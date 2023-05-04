@@ -6,30 +6,40 @@
 /*   By: ilselbon <ilselbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 22:10:30 by ilselbon          #+#    #+#             */
-/*   Updated: 2023/04/28 19:24:41 by ilselbon         ###   ########.fr       */
+/*   Updated: 2023/05/04 22:28:01 by ilselbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-void	*ft_philo(int *i)
+void	*ft_philo(t_philosophe *actuel)
 {
-	printf("thread philo numero %d\n", *i + 1);
+	static int i;
+
+	printf("thread philo numero %d\n", i + 1);
+	if(pthread_mutex_lock(&actuel->fourchette_d) == 0)
+	{
+		printf("test\n");
+		pthread_mutex_unlock(&actuel->fourchette_d);
+	}
 	return (NULL);
 }
 
 // initialise chaque maillon de la liste chainee
-void	ft_initialisation(t_philosophe *actuel)
+int	ft_initialisation(t_philosophe *actuel)
 {
 	if (actuel)
 	{
 		actuel->i = 0;
 		actuel->fourchette_g = NULL;
-		actuel->fourchette_d = 0;
+		if(0 != pthread_mutex_init(&actuel->fourchette_d, NULL))
+			return (1);
+		//actuel->fourchette_d = NULL;
 		actuel->nb_de_repas = 0;
 		actuel->philo = 0;
 		actuel->next = NULL;
 	}
+	return (0);
 }
 
 // initialise autant de thread qu'il y a de philosophes
@@ -43,19 +53,19 @@ int	ft_thread_philo(t_philosophe **premier)
 	actuel = *premier;
 	while (actuel)
 	{
-		ret = pthread_create(&actuel->philo, NULL, (void *)ft_philo, &i);
+		ret = pthread_create(&actuel->philo, NULL, (void *)ft_philo, actuel);
 		if (ret != 0)
 		{
 			printf("la creation du thread numero %d a echouee\n", i);
 			return (1);
 		}
-		ret = pthread_join(actuel->philo, NULL);
-		if (ret != 0)
-		{
-			printf("le join numero %d a echoue\n", i);
-			return (1);
-		}
-		actuel = actuel->next;
+		// ret = pthread_join(actuel->philo, NULL);
+		// if (ret != 0)
+		// {
+		// 	printf("le join numero %d a echoue\n", i);
+		// 	return (1);
+		// }
+		// actuel = actuel->next;
 		i++;
 	}
 	return (0);
@@ -74,8 +84,9 @@ int	ft_creation_table(t_struct *jsp)
 	if (!premier)
 		return (1);
 	actuel = premier;
-	ft_initialisation(actuel);
-	actuel->fourchette_d = i + 2;
+	if(ft_initialisation(actuel))
+		return (1);
+	//actuel->fourchette_d = i + 2;
 	while (i < jsp->philosophes)
 	{
 		if (i != 0)
@@ -83,9 +94,10 @@ int	ft_creation_table(t_struct *jsp)
 			actuel = ft_lstadd_back(&premier, ft_lstnew(i));
 			if (!actuel)
 				return (1);
-			ft_initialisation(actuel);
+			if(ft_initialisation(actuel))
+				return (1);
 			actuel->fourchette_g = &temp->fourchette_d;
-			actuel->fourchette_d = i + 2;
+			//actuel->fourchette_d = i + 2;
 		}
 		actuel->i = i;
 		actuel->philo = i;

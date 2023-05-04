@@ -8,3 +8,5 @@ trucs a ajouter :
 
 idee :
 creer un maillon de liste chainee pour chaque philosophe et ses fouchettes,
+
+helgrind
