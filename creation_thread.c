@@ -6,7 +6,7 @@
 /*   By: ilselbon <ilselbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 22:10:30 by ilselbon          #+#    #+#             */
-/*   Updated: 2023/05/04 22:28:01 by ilselbon         ###   ########.fr       */
+/*   Updated: 2023/05/05 22:18:55 by ilselbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,11 @@
 
 void	*ft_philo(t_philosophe *actuel)
 {
-	static int i;
-
-	printf("thread philo numero %d\n", i + 1);
-	if(pthread_mutex_lock(&actuel->fourchette_d) == 0)
+	while(1)
 	{
-		printf("test\n");
-		pthread_mutex_unlock(&actuel->fourchette_d);
+		pthread_mutex_lock(&actuel->fourchette_d);
+		(void)actuel->i;
+		printf("hey !\n");
 	}
 	return (NULL);
 }
@@ -32,9 +30,7 @@ int	ft_initialisation(t_philosophe *actuel)
 	{
 		actuel->i = 0;
 		actuel->fourchette_g = NULL;
-		if(0 != pthread_mutex_init(&actuel->fourchette_d, NULL))
-			return (1);
-		//actuel->fourchette_d = NULL;
+		pthread_mutex_init(&actuel->fourchette_d, NULL);
 		actuel->nb_de_repas = 0;
 		actuel->philo = 0;
 		actuel->next = NULL;
@@ -53,7 +49,7 @@ int	ft_thread_philo(t_philosophe **premier)
 	actuel = *premier;
 	while (actuel)
 	{
-		ret = pthread_create(&actuel->philo, NULL, (void *)ft_philo, actuel);
+		ret = pthread_create(&actuel->philo, NULL, (void *)ft_philo, &actuel);
 		if (ret != 0)
 		{
 			printf("la creation du thread numero %d a echouee\n", i);
@@ -65,7 +61,7 @@ int	ft_thread_philo(t_philosophe **premier)
 		// 	printf("le join numero %d a echoue\n", i);
 		// 	return (1);
 		// }
-		// actuel = actuel->next;
+		actuel = actuel->next;
 		i++;
 	}
 	return (0);
