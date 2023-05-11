@@ -6,7 +6,7 @@
 /*   By: ilselbon <ilselbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 22:10:30 by ilselbon          #+#    #+#             */
-/*   Updated: 2023/05/11 16:30:16 by ilselbon         ###   ########.fr       */
+/*   Updated: 2023/05/11 22:04:00 by ilselbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,18 @@ int ft_verif_philos(t_struct *jsp)
 {
 	t_philosophe *actuel;
 	actuel = jsp->philosophe;
+	t_info info;
+
+	info = jsp->info;
 	//verifier si un philosophe est mort
 	while(actuel)
 	{
 		//verifier si chaque philo a mange le nombre minimal de fois
-		if()
+		if(actuel->nb_de_repas < info.notepme)
+			return 1;
 		actuel = actuel->next;
 	}
-	return (1);
+	return (0);
 }
 
 void	*ft_philo(void *jsp)
@@ -36,7 +40,7 @@ void	*ft_philo(void *jsp)
 //trouver le bon actuel grace a l'index
 	while (je_sais_pas->index != actuel->i)
 		actuel = actuel->next;
-	while (1)
+	while (ft_verif_philos(jsp))
 	{
 		if (actuel->sdk == 3)
 		{
