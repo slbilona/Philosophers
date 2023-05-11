@@ -6,7 +6,7 @@
 /*   By: ilselbon <ilselbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 22:10:32 by ilselbon          #+#    #+#             */
-/*   Updated: 2023/04/28 19:19:41 by ilselbon         ###   ########.fr       */
+/*   Updated: 2023/05/09 19:12:47 by ilselbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int	ft_chiffres(char **av, int j, int i)
 }
 
 // Vérifie si les arguments entrés sont valides.
-int	ft_verif_args(int ac, char **av, t_struct *jsp)
+int	ft_verif_args(int ac, char **av, t_info *jsp)
 {
 	if (!ft_chiffres(av, 1, 0))
 		return (1);
