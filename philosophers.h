@@ -6,7 +6,7 @@
 /*   By: ilselbon <ilselbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 22:13:42 by ilselbon          #+#    #+#             */
-/*   Updated: 2023/05/10 21:42:35 by ilselbon         ###   ########.fr       */
+/*   Updated: 2023/05/11 16:14:38 by ilselbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,10 +42,9 @@ typedef struct s_philosophe
 typedef struct s_struct
 {
 	int					index;
-	struct s_info 		info;
-	struct s_philosophe *philosophe;
+	struct s_info		info;
+	struct s_philosophe	*philosophe;
 }	t_struct;
-
 
 // main
 
