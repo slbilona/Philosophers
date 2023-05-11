@@ -6,7 +6,7 @@
 /*   By: ilselbon <ilselbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 22:10:30 by ilselbon          #+#    #+#             */
-/*   Updated: 2023/05/11 22:04:00 by ilselbon         ###   ########.fr       */
+/*   Updated: 2023/05/11 22:54:26 by ilselbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ int	ft_initialisation(t_philosophe *actuel)
 		actuel->nb_de_repas = 0;
 		actuel->philo = 0;
 		actuel->next = NULL;
-		actuel->sdk = 0;
+		actuel->sdk = 3;
 	}
 	return (0);
 }
@@ -100,40 +100,45 @@ int	ft_thread_philo(t_struct *jsp)
 	t_philosophe	**premier;
 	t_philosophe	*actuel;
 	int				i;
+	int				j;
 
 	premier = &jsp->philosophe;
 	i = 0;
 	actuel = *premier;
-	while (actuel)
+	j = 2;
+	while(j)
 	{
-		printf("actuel->i : %d\n", actuel->i);
-		jsp->index = actuel->i;
-		if (actuel->i % 2 == 0)
-			actuel->sdk = 3;
-		if (pthread_create(&actuel->philo, NULL, ft_philo, (void *)jsp))
+		while (actuel)
 		{
-			printf("la creation du thread numero %d a echouee\n", i);
-			return (1);
+			printf("actuel->i : %d\n", actuel->i);
+			jsp->index = actuel->i;
+			if(j == 2)
+			{
+				if (actuel->i % 2 == 0)
+				{
+					if (pthread_create(&actuel->philo, NULL, ft_philo, (void *)jsp))
+					{
+						printf("la creation du thread numero %d a echouee\n", i);
+						return (1);
+					}
+				}
+			}
+			if (j == 1)
+			{
+				if (actuel->i % 2 != 0)
+				{
+					if (pthread_create(&actuel->philo, NULL, ft_philo, (void *)jsp))
+					{
+						printf("la creation du thread numero %d a echouee\n", i);
+						return (1);
+					}
+				}
+			}
+			i++;
+			usleep(100);
+			actuel = actuel->next;
 		}
-		i++;
-		usleep(100);
-		actuel = actuel->next;
-	}
-	actuel = *premier;
-	while (actuel)
-	{
-		printf("actuel->i : %d\n", actuel->i);
-		jsp->index = actuel->i;
-		if (actuel->i % 2 != 0)
-			actuel->sdk = 3;
-		if (pthread_create(&actuel->philo, NULL, ft_philo, (void *)jsp))
-		{
-			printf("la creation du thread numero %d a echouee\n", i);
-			return (1);
-		}
-		i++;
-		usleep(100);
-		actuel = actuel->next;
+		j--;
 	}
 	actuel = *premier;
 	while (actuel)
