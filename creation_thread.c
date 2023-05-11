@@ -6,7 +6,7 @@
 /*   By: ilselbon <ilselbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 22:10:30 by ilselbon          #+#    #+#             */
-/*   Updated: 2023/05/11 15:22:45 by ilselbon         ###   ########.fr       */
+/*   Updated: 2023/05/11 16:07:18 by ilselbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,28 +36,30 @@ void	*ft_philo(void *jsp)
 			printf("le philosophe numero %d a pris une fouchette gauche\n", actuel->i);
 			printf("le philosophe %d mange\n", actuel->i);
 			actuel->nb_de_repas++;
+			printf("le philosophe numero %d a mange %d fois\n", actuel->i, actuel->nb_de_repas);
 			usleep(50);
 			pthread_mutex_unlock(&actuel->fourchette_d);
 			pthread_mutex_unlock(actuel->fourchette_g);
 			actuel->sdk = 1;
 		}
-		if(actuel->sdk == 1)
+		else if(actuel->sdk == 1)
 		{
 			printf("le philosophe numero %d dort\n", actuel->i);
 			usleep(50);
 			actuel->sdk = 2;
 		}
-		if(actuel->sdk == 2)
+		else if(actuel->sdk == 2)
 		{
 			printf("le philosophe numero %d pense\n", actuel->i);
 			actuel->sdk = 3;
 		}
+		//printf("le philosophe numero %d a mange %d fois\n", actuel->i, actuel->nb_de_repas);
 	}
-	printf("le philosophe numero %d a mange %d fois\n", actuel->i, actuel->nb_de_repas);
 	return (NULL);
 }
 
 /*
+0 : rien
 1 : viens de manger et doit dormir
 2 : a dormit et pense en attendant de manger
 3 :	att de manger
@@ -74,7 +76,7 @@ int	ft_initialisation(t_philosophe *actuel)
 		actuel->nb_de_repas = 0;
 		actuel->philo = 0;
 		actuel->next = NULL;
-		actuel->sdk = 3;
+		actuel->sdk = 0;
 	}
 	return (0);
 }
@@ -93,19 +95,42 @@ int	ft_thread_philo(t_struct *jsp)
 	{
 		printf("actuel->i : %d\n", actuel->i);
 		jsp->index = actuel->i;
+		if(actuel->i % 2 == 0)
+			actuel->sdk = 3;
 		if (pthread_create(&actuel->philo, NULL, ft_philo, (void *)jsp))
 		{
 			printf("la creation du thread numero %d a echouee\n", i);
 			return (1);
 		}
-		// if (pthread_join(actuel->philo, NULL))
-		// {
-		// 	printf("le join numero %d a echoue\n", i);
-		// 	return (1);
-		// }
-		actuel = actuel->next;
 		i++;
 		usleep(100);
+		actuel = actuel->next;
+	}
+	actuel = *premier;
+	while (actuel)
+	{
+		printf("actuel->i : %d\n", actuel->i);
+		jsp->index = actuel->i;
+		if(actuel->i % 2 != 0)
+			actuel->sdk = 3;
+		if (pthread_create(&actuel->philo, NULL, ft_philo, (void *)jsp))
+		{
+			printf("la creation du thread numero %d a echouee\n", i);
+			return (1);
+		}
+		i++;
+		usleep(100);
+		actuel = actuel->next;
+	}
+	actuel = *premier;
+	while(actuel)
+	{
+		if (pthread_join(actuel->philo, NULL))
+		{
+			printf("le join numero %d a echoue\n", i);
+			return (1);
+		}
+		actuel = actuel->next;
 	}
 	return (0);
 }
