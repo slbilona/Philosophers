@@ -6,12 +6,21 @@
 /*   By: ilselbon <ilselbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 22:10:30 by ilselbon          #+#    #+#             */
-/*   Updated: 2023/05/15 21:46:34 by ilselbon         ###   ########.fr       */
+/*   Updated: 2023/05/15 22:51:31 by ilselbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
+unsigned long ft_time(t_struct *jsp)
+{
+	struct timeval rn;
+	
+	gettimeofday(&rn, NULL);
+	return (rn.tv_usec - jsp->info.debut.tv_usec);
+}
+
+//verifie si aucun philosophe n'est mort
 int ft_verif_philos(t_struct *jsp)
 {
 	const t_philosophe *actuel;
@@ -25,6 +34,11 @@ int ft_verif_philos(t_struct *jsp)
 		//verifier si chaque philo a mange le nombre minimal de fois
 		if(actuel->nb_de_repas < info.notepme)
 			return 1;
+		if(actuel->vie == 0)
+		{
+			printf("BOO !\n");
+			return (0);
+		}
 		actuel = actuel->next;
 	}
 	return (0);
@@ -42,39 +56,57 @@ void	*ft_philo(void *jsp)
 //trouver le bon actuel grace a l'index
 	while (je_sais_pas->index != actuel->i)
 		actuel = actuel->next;
-	while (ft_verif_philos(jsp))
+	temps1.tv_usec = je_sais_pas->info.debut.tv_usec;
+	while (ft_verif_philos(jsp) == 1)
 	{
+		gettimeofday(&temps2, NULL);
+		if((temps2.tv_usec - temps1.tv_usec) > je_sais_pas->info.ttd)
+		{
+			printf("%ld %d died\n", ft_time(jsp), actuel->i);
+			actuel->vie = 0;
+			break;
+		}
 		if (actuel->sdk == 3)
 		{
-			gettimeofday(&temps1, NULL);
 			pthread_mutex_lock(&actuel->fourchette_d);
-			printf("le philosophe numero %d a pris une fouchette droite\n", actuel->i);
-			pthread_mutex_lock(actuel->fourchette_g);
-			printf("le philosophe numero %d a pris une fouchette gauche\n", actuel->i);
+			printf("%ld %d has taken a fork (droite)\n", ft_time(jsp), actuel->i);
 			gettimeofday(&temps2, NULL);
-			printf("temps1 : %ld, ttd : %d\n", (temps2.tv_usec - temps1.tv_usec), je_sais_pas->info.ttd);
 			if((temps2.tv_usec - temps1.tv_usec) > je_sais_pas->info.ttd)
 			{
-				printf("le philosophe numero %d est mort\n", actuel->i);
-				//break;
+				printf("%ld %d died\n", ft_time(jsp), actuel->i);
+				actuel->vie = 0;
+				break;
 			}
-			printf("le philosophe %d mange\n", actuel->i);
-			actuel->nb_de_repas++;
-			printf("le philosophe numero %d a mange %d fois\n", actuel->i, actuel->nb_de_repas);
-			usleep(je_sais_pas->info.tte);
-			pthread_mutex_unlock(&actuel->fourchette_d);
-			pthread_mutex_unlock(actuel->fourchette_g);
-			actuel->sdk = 1;
+			pthread_mutex_lock(actuel->fourchette_g);
+			printf("%ld %d has taken a fork (gauche)\n", ft_time(jsp), actuel->i);
+			gettimeofday(&temps2, NULL);
+			if((temps2.tv_usec - temps1.tv_usec) > je_sais_pas->info.ttd)
+			{
+				printf("%ld %d died\n", ft_time(jsp), actuel->i);
+				actuel->vie = 0;
+				break;
+			}
+			else if (ft_verif_philos(jsp))
+			{
+				printf("%ld %d is eating\n", ft_time(jsp), actuel->i);
+				actuel->nb_de_repas++;
+				//printf("le philosophe numero %d a mange %d fois\n", actuel->i, actuel->nb_de_repas);
+				usleep(je_sais_pas->info.tte);
+				gettimeofday(&temps1, NULL);
+				pthread_mutex_unlock(actuel->fourchette_g);
+				pthread_mutex_unlock(&actuel->fourchette_d);
+				actuel->sdk = 1;
+			}
 		}
 		else if (actuel->sdk == 1)
 		{
-			printf("le philosophe numero %d dort\n", actuel->i);
+			printf("%ld %d is sleeping\n", ft_time(jsp), actuel->i);
 			usleep(je_sais_pas->info.tts);
 			actuel->sdk = 2;
 		}
 		else if (actuel->sdk == 2)
 		{
-			printf("le philosophe numero %d pense\n", actuel->i);
+			printf("%ld %d is thinking\n", ft_time(jsp), actuel->i);
 			actuel->sdk = 3;
 		}
 	}
@@ -122,29 +154,30 @@ int	ft_thread_philo(t_struct *jsp)
 			jsp->index = actuel->i;
 			if(j == 2)
 			{
-				if (actuel->i % 2 == 0)
+				if (actuel->i % 2 != 0)
 				{
-					printf("actuel->i : %d\n", actuel->i);
+					//printf("actuel->i : %d\n", actuel->i);
 					if (pthread_create(&actuel->philo, NULL, ft_philo, (void *)jsp))
 					{
 						printf("la creation du thread numero %d a echouee\n", actuel->i);
 						return (1);
 					}
+					usleep(100);
 				}
 			}
 			if (j == 1)
 			{
-				if (actuel->i % 2 != 0)
+				if (actuel->i % 2 == 0)
 				{
-					printf("actuel->i : %d\n", actuel->i);
+					//printf("actuel->i : %d\n", actuel->i);
 					if (pthread_create(&actuel->philo, NULL, ft_philo, (void *)jsp))
 					{
 						printf("la creation du thread numero %d a echouee\n", actuel->i);
 						return (1);
 					}
+					usleep(100);
 				}
 			}
-			usleep(100);
 			actuel = actuel->next;
 		}
 		j--;

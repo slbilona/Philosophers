@@ -6,7 +6,7 @@
 /*   By: ilselbon <ilselbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 22:10:37 by ilselbon          #+#    #+#             */
-/*   Updated: 2023/05/11 16:13:50 by ilselbon         ###   ########.fr       */
+/*   Updated: 2023/05/15 22:09:44 by ilselbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ int	main(int ac, char **av)
 {
 	t_struct	jsp;
 
+	gettimeofday(&jsp.info.debut, NULL);
 	if (ac > 6)
 		printf("trop d'arguments\n");
 	else if (ac < 5)
