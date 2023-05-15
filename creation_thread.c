@@ -6,7 +6,7 @@
 /*   By: ilselbon <ilselbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 22:10:30 by ilselbon          #+#    #+#             */
-/*   Updated: 2023/05/11 22:54:26 by ilselbon         ###   ########.fr       */
+/*   Updated: 2023/05/15 21:46:34 by ilselbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int ft_verif_philos(t_struct *jsp)
 {
-	t_philosophe *actuel;
+	const t_philosophe *actuel;
 	actuel = jsp->philosophe;
 	t_info info;
 
@@ -34,6 +34,8 @@ void	*ft_philo(void *jsp)
 {
 	t_struct		*je_sais_pas;
 	t_philosophe	*actuel;
+	struct timeval temps1;
+	struct timeval temps2;
 
 	je_sais_pas = (t_struct *) jsp;
 	actuel = je_sais_pas->philosophe;
@@ -44,14 +46,22 @@ void	*ft_philo(void *jsp)
 	{
 		if (actuel->sdk == 3)
 		{
+			gettimeofday(&temps1, NULL);
 			pthread_mutex_lock(&actuel->fourchette_d);
 			printf("le philosophe numero %d a pris une fouchette droite\n", actuel->i);
 			pthread_mutex_lock(actuel->fourchette_g);
 			printf("le philosophe numero %d a pris une fouchette gauche\n", actuel->i);
+			gettimeofday(&temps2, NULL);
+			printf("temps1 : %ld, ttd : %d\n", (temps2.tv_usec - temps1.tv_usec), je_sais_pas->info.ttd);
+			if((temps2.tv_usec - temps1.tv_usec) > je_sais_pas->info.ttd)
+			{
+				printf("le philosophe numero %d est mort\n", actuel->i);
+				//break;
+			}
 			printf("le philosophe %d mange\n", actuel->i);
 			actuel->nb_de_repas++;
 			printf("le philosophe numero %d a mange %d fois\n", actuel->i, actuel->nb_de_repas);
-			usleep(50);
+			usleep(je_sais_pas->info.tte);
 			pthread_mutex_unlock(&actuel->fourchette_d);
 			pthread_mutex_unlock(actuel->fourchette_g);
 			actuel->sdk = 1;
@@ -59,7 +69,7 @@ void	*ft_philo(void *jsp)
 		else if (actuel->sdk == 1)
 		{
 			printf("le philosophe numero %d dort\n", actuel->i);
-			usleep(50);
+			usleep(je_sais_pas->info.tts);
 			actuel->sdk = 2;
 		}
 		else if (actuel->sdk == 2)
@@ -84,6 +94,7 @@ int	ft_initialisation(t_philosophe *actuel)
 	if (actuel)
 	{
 		actuel->i = 0;
+		actuel->vie = 1;
 		actuel->fourchette_g = NULL;
 		pthread_mutex_init(&actuel->fourchette_d, NULL);
 		actuel->nb_de_repas = 0;
@@ -99,26 +110,24 @@ int	ft_thread_philo(t_struct *jsp)
 {
 	t_philosophe	**premier;
 	t_philosophe	*actuel;
-	int				i;
 	int				j;
 
 	premier = &jsp->philosophe;
-	i = 0;
-	actuel = *premier;
 	j = 2;
 	while(j)
 	{
+		actuel = *premier;
 		while (actuel)
 		{
-			printf("actuel->i : %d\n", actuel->i);
 			jsp->index = actuel->i;
 			if(j == 2)
 			{
 				if (actuel->i % 2 == 0)
 				{
+					printf("actuel->i : %d\n", actuel->i);
 					if (pthread_create(&actuel->philo, NULL, ft_philo, (void *)jsp))
 					{
-						printf("la creation du thread numero %d a echouee\n", i);
+						printf("la creation du thread numero %d a echouee\n", actuel->i);
 						return (1);
 					}
 				}
@@ -127,14 +136,14 @@ int	ft_thread_philo(t_struct *jsp)
 			{
 				if (actuel->i % 2 != 0)
 				{
+					printf("actuel->i : %d\n", actuel->i);
 					if (pthread_create(&actuel->philo, NULL, ft_philo, (void *)jsp))
 					{
-						printf("la creation du thread numero %d a echouee\n", i);
+						printf("la creation du thread numero %d a echouee\n", actuel->i);
 						return (1);
 					}
 				}
 			}
-			i++;
 			usleep(100);
 			actuel = actuel->next;
 		}
@@ -145,7 +154,7 @@ int	ft_thread_philo(t_struct *jsp)
 	{
 		if (pthread_join(actuel->philo, NULL))
 		{
-			printf("le join numero %d a echoue\n", i);
+			printf("le join numero %d a echoue\n", actuel->i);
 			return (1);
 		}
 		actuel = actuel->next;
@@ -170,7 +179,6 @@ int	ft_creation_table(t_struct *jsp)
 {
 	t_philosophe	*actuel;
 	t_philosophe	*temp;
-	t_philosophe	*vide;
 	int				i;
 
 	i = 0;
@@ -191,7 +199,7 @@ int	ft_creation_table(t_struct *jsp)
 				return (1);
 			actuel->fourchette_g = &temp->fourchette_d;
 		}
-		actuel->i = i;
+		actuel->i = i + 1;
 		actuel->philo = i;
 		temp = actuel;
 		i++;
@@ -201,12 +209,6 @@ int	ft_creation_table(t_struct *jsp)
 	if (ft_thread_philo(jsp))
 		return (ft_vide_liste(&jsp->philosophe));
 	ft_vide_liste(&jsp->philosophe);
-	vide = jsp->philosophe;
-	while (vide)
-	{
-		pthread_mutex_destroy(&vide->fourchette_d);
-		vide = vide->next;
-	}
 	printf("parfait\n");
 	return (0);
 }

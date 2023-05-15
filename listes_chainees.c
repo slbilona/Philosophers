@@ -6,7 +6,7 @@
 /*   By: ilselbon <ilselbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 22:12:42 by ilselbon          #+#    #+#             */
-/*   Updated: 2023/05/05 20:45:16 by ilselbon         ###   ########.fr       */
+/*   Updated: 2023/05/15 19:06:52 by ilselbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ int	ft_vide_liste(t_philosophe **pile)
 	while (actuel)
 	{
 		temp = actuel;
+		pthread_mutex_destroy(&temp->fourchette_d);
 		actuel = actuel->next;
 		free(temp);
 	}

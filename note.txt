@@ -10,3 +10,4 @@ idee :
 creer un maillon de liste chainee pour chaque philosophe et ses fouchettes,
 
 helgrind
+compiler avec valgrind --tool=helgrind et le flag -pthread

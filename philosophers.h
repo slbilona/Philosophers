@@ -6,18 +6,19 @@
 /*   By: ilselbon <ilselbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 22:13:42 by ilselbon          #+#    #+#             */
-/*   Updated: 2023/05/11 16:14:38 by ilselbon         ###   ########.fr       */
+/*   Updated: 2023/05/15 19:48:48 by ilselbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PHILOSOPHERS_H
 # define PHILOSOPHERS_H
 
+# include <sys/time.h>
 # include <pthread.h>
-# include <stdio.h>
 # include <stdlib.h>
 # include <string.h>
 # include <unistd.h>
+# include <stdio.h>
 
 typedef struct s_info
 {
@@ -26,10 +27,12 @@ typedef struct s_info
 	int	tte;
 	int	tts;
 	int	notepme;
+	struct timeval debut;
 }	t_info;
 
 typedef struct s_philosophe
 {
+	int					vie;
 	int					i;
 	int					sdk;
 	int					nb_de_repas;
