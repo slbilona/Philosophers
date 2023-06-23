@@ -6,7 +6,7 @@
 /*   By: ilselbon <ilselbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 22:13:42 by ilselbon          #+#    #+#             */
-/*   Updated: 2023/05/15 22:09:20 by ilselbon         ###   ########.fr       */
+/*   Updated: 2023/06/23 20:47:17 by ilselbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,5 +71,9 @@ void			*ft_philo(void *actuel);
 int				ft_vide_liste(t_philosophe **pile);
 t_philosophe	*ft_lstnew(int content);
 t_philosophe	*ft_lstadd_back(t_philosophe **lst, t_philosophe *new);
+
+// utils
+
+void ft_usleep(int tmp, struct timeval deb);
 
 #endif

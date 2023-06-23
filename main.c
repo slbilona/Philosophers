@@ -6,7 +6,7 @@
 /*   By: ilselbon <ilselbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 22:10:37 by ilselbon          #+#    #+#             */
-/*   Updated: 2023/05/15 22:09:44 by ilselbon         ###   ########.fr       */
+/*   Updated: 2023/06/23 19:28:04 by ilselbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,10 @@ int	main(int ac, char **av)
 	else if (ac == 6 || ac == 5)
 	{
 		if (!ft_verif_args(ac, av, &jsp.info))
-			ft_creation_table(&jsp);
+		{
+			if(!ft_creation_table(&jsp))
+				printf("erreur\n");
+		}
 		else if (jsp.info.philosophes == 0)
 			return (0);
 	}
