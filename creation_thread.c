@@ -37,7 +37,6 @@ int ft_verif_philos(t_struct *jsp)
 			return (1);
 		if(actuel->vie == 0)
 		{
-			//printf("BOO !\n");
 			return (0);
 		}
 		actuel = actuel->next;
