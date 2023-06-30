@@ -27,20 +27,25 @@ int ft_verif_philos(t_struct *jsp)
 	const t_philosophe *actuel;
 	actuel = jsp->philosophe;
 	t_info info;
+	int i = 0;
 
 	info = jsp->info;
 	//verifier si un philosophe est mort
 	while(actuel)
 	{
-		//verifier si chaque philo a mange le nombre minimal de fois
-		if(actuel->nb_de_repas < info.notepme)
-			return (1);
+		
 		if(actuel->vie == 0)
 		{
+			//printf("BOO !\n");
 			return (0);
 		}
+		//verifier si chaque philo a mange le nombre minimal de fois
+		if(actuel->nb_de_repas < info.notepme)
+			i++;
 		actuel = actuel->next;
 	}
+	if (i > 0)
+		return 1;
 	return (0);
 }
 
@@ -62,54 +67,56 @@ void	*ft_philo(void *jsp)
 		gettimeofday(&temps2, NULL);
 		if((temps2.tv_usec - temps1.tv_usec) > je_sais_pas->info.ttd)
 		{
-			printf("%ld %d died\n", ft_time(jsp), actuel->i);
 			actuel->vie = 0;
-			break;
+			printf("%ld %d died1 \n", ft_time(jsp), actuel->i);
+			return (NULL);
 		}
 		if (actuel->sdk == 3)
 		{
+			if(!ft_verif_philos(jsp))
+				return NULL;
 			pthread_mutex_lock(&actuel->fourchette_d);
 			printf("%ld %d has taken a fork (droite)\n", ft_time(jsp), actuel->i);
 			gettimeofday(&temps2, NULL);
 			if((temps2.tv_usec - temps1.tv_usec) > je_sais_pas->info.ttd)
 			{
 				actuel->vie = 0;
-				printf("%ld %d died\n", ft_time(jsp), actuel->i);
-				break;
+				printf("%ld %d died 2\n", ft_time(jsp), actuel->i);
+				return (NULL);
 			}
-			if(ft_verif_philos(jsp))
+			if(!ft_verif_philos(jsp))
+				return NULL;
+			pthread_mutex_lock(actuel->fourchette_g);
+			printf("%ld %d has taken a fork (gauche)\n", ft_time(jsp), actuel->i);
+			gettimeofday(&temps2, NULL);
+			if((temps2.tv_usec - temps1.tv_usec) > je_sais_pas->info.ttd)
 			{
-				pthread_mutex_lock(actuel->fourchette_g);
-				printf("%ld %d has taken a fork (gauche)\n", ft_time(jsp), actuel->i);
-				gettimeofday(&temps2, NULL);
-				if((temps2.tv_usec - temps1.tv_usec) > je_sais_pas->info.ttd)
-				{
-					printf("%ld %d died\n", ft_time(jsp), actuel->i);
-					actuel->vie = 0;
-					break;
-				}
-				else if (ft_verif_philos(jsp))
-				{
-					printf("%ld %d is eating\n", ft_time(jsp), actuel->i);
-					actuel->nb_de_repas++;
-					//printf("le philosophe numero %d a mange %d fois\n", actuel->i, actuel->nb_de_repas);
-					ft_usleep(je_sais_pas->info.tte);
-					gettimeofday(&temps1, NULL);
-					pthread_mutex_unlock(actuel->fourchette_g);
-					pthread_mutex_unlock(&actuel->fourchette_d);
-					actuel->sdk = 1;
-				}
+				;
+				actuel->vie = 0;
+				return (printf("%ld %d died 3\n", ft_time(jsp), actuel->i), NULL);
 			}
+			if(!ft_verif_philos(jsp))
+				return NULL;
+			printf("%ld %d is eating\n", ft_time(jsp), actuel->i);
+			actuel->nb_de_repas++;
+			//printf("le philosophe numero %d a mange %d fois\n", actuel->i, actuel->nb_de_repas);
+			ft_usleep(je_sais_pas->info.tte);
+			gettimeofday(&temps1, NULL);
+			pthread_mutex_unlock(actuel->fourchette_g);
+			pthread_mutex_unlock(&actuel->fourchette_d);
+			actuel->sdk = 1;
 		}
 		else if (actuel->sdk == 1 && ft_verif_philos(jsp))
 		{
 			printf("%ld %d is sleeping\n", ft_time(jsp), actuel->i);
+			//printf("tts : %d\n\n", je_sais_pas->info.tts);
 			ft_usleep(je_sais_pas->info.tts);
 			actuel->sdk = 2;
 		}
 		else if (actuel->sdk == 2 && ft_verif_philos(jsp))
 		{
 			printf("%ld %d is thinking\n", ft_time(jsp), actuel->i);
+			ft_usleep(10);
 			actuel->sdk = 3;
 		}
 	}
@@ -165,7 +172,7 @@ int	ft_thread_philo(t_struct *jsp)
 						printf("la creation du thread numero %d a echouee\n", actuel->i);
 						return (1);
 					}
-					ft_usleep(100);
+					//ft_usleep(10);
 				}
 			}
 			if (j == 1)
@@ -178,7 +185,7 @@ int	ft_thread_philo(t_struct *jsp)
 						printf("la creation du thread numero %d a echouee\n", actuel->i);
 						return (1);
 					}
-					ft_usleep(100);
+					ft_usleep(10);
 				}
 			}
 			actuel = actuel->next;
