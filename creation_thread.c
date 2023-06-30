@@ -37,7 +37,7 @@ int ft_verif_philos(t_struct *jsp)
 			return (1);
 		if(actuel->vie == 0)
 		{
-			printf("BOO !\n");
+			//printf("BOO !\n");
 			return (0);
 		}
 		actuel = actuel->next;
@@ -133,10 +133,10 @@ int	ft_initialisation(t_philosophe *actuel)
 		actuel->vie = 1;
 		actuel->fourchette_g = NULL;
 		pthread_mutex_init(&actuel->fourchette_d, NULL);
-		actuel->nb_de_repas = 0;
 		actuel->philo = 0;
 		actuel->next = NULL;
 		actuel->sdk = 3;
+		actuel->nb_de_repas = 0;
 	}
 	return (0);
 }
@@ -219,12 +219,13 @@ int	ft_creation_table(t_struct *jsp)
 	int				i;
 
 	i = 0;
-	jsp->philosophe = ft_lstnew(i);
+	jsp->philosophe = ft_lstnew(i); // creation du premier philosophe
 	if (!jsp->philosophe)
 		return (1);
 	actuel = jsp->philosophe;
-	if (ft_initialisation(actuel))
-		return (1);
+	if (ft_initialisation(actuel)) //initialisation du premier philosophe
+	 	return (1);
+	// boucle de creation de tous les philosophes dans la liste chainee
 	while (i < jsp->info.philosophes)
 	{
 		if (i != 0)

@@ -43,19 +43,21 @@ int	main(int ac, char **av)
 	t_struct	jsp;
 
 	gettimeofday(&jsp.info.debut, NULL);
+	//veirifie les nombre d'arguments entrés
 	if (ac > 6)
 		printf("trop d'arguments\n");
 	else if (ac < 5)
 		printf("pas assez d'arguments\n");
 	else if (ac == 6 || ac == 5)
 	{
+		jsp.info.ac = ac;
+		//verifie la validité des arguments grace a la fonction "ft_verif_args"
 		if (!ft_verif_args(ac, av, &jsp.info))
 		{
-			if(!ft_creation_table(&jsp))
+			//creation de la liste chainee et initialisation des structures
+			if (ft_creation_table(&jsp))
 				printf("erreur\n");
 		}
-		else if (jsp.info.philosophes == 0)
-			return (0);
 	}
 	return (0);
 }

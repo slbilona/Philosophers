@@ -54,7 +54,7 @@ int	ft_chiffres(char **av, int j, int i)
 int	ft_verif_args(int ac, char **av, t_info *jsp)
 {
 	if (!ft_chiffres(av, 1, 0))
-		return (1);
+		return (printf("Erreur : les arguments doivent etre des nombres\n"), 1);
 	jsp->philosophes = ft_atoi(av[1]);
 	jsp->ttd = ft_atoi(av[2]);
 	jsp->tte = ft_atoi(av[3]);

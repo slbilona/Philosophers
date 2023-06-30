@@ -20,27 +20,15 @@ unsigned long	ft_time2(struct timeval debut)
 	return (rn.tv_usec - debut.tv_usec);
 }
 
-void	ft_usleep(int tmp, struct timeval deb)
+void	ft_usleep(int tmp)
 {
 	long debut;
 	long actuel;
+ 	struct timeval deb;
 
+ 	gettimeofday(&deb, NULL);
 	debut = ft_time2(deb);
 	actuel = debut;
 	while(tmp > (actuel - debut))
-	{
-		usleep(10);
 		actuel = ft_time2(deb);
-		//printf("actuel - debut : %ld; actuel : %ld\n", (actuel - debut), actuel);
-	}
-}
-
-int main()
-{
-	struct timeval debut;
-	gettimeofday(&debut, NULL);
-	printf("debut : %ld\n", ft_time2(debut));
-	ft_usleep(100, debut);
-	long info = ft_time2(debut);
-	printf("%ld\n", info);
 }

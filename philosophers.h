@@ -22,6 +22,7 @@
 
 typedef struct s_info
 {
+	int ac;
 	int	philosophes;
 	int	ttd;
 	int	tte;
@@ -74,6 +75,6 @@ t_philosophe	*ft_lstadd_back(t_philosophe **lst, t_philosophe *new);
 
 // utils
 
-void ft_usleep(int tmp, struct timeval deb);
+void ft_usleep(int tmp);
 
 #endif
