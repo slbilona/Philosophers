@@ -19,7 +19,6 @@ all : $(NAME)
 
 $(NAME): $(OBJS) | $(OBJDIR)
 	$(CC) $(CFLAGS) $(OBJS) -o $(NAME)
-	clear
 	@echo "🧚 tout est prêt 🧚"
 
 $(OBJDIR)/%.o:%.c | $(OBJDIR)

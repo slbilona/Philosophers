@@ -51,25 +51,25 @@ int	ft_chiffres(char **av, int j, int i)
 }
 
 // Vérifie si les arguments entrés sont valides.
-int	ft_verif_args(int ac, char **av, t_info *jsp)
+int	ft_verif_args(int ac, char **av, t_info *ma_structure)
 {
 	if (!ft_chiffres(av, 1, 0))
 		return (printf("Erreur : les arguments doivent etre des nombres\n"), 1);
-	jsp->philosophes = ft_atoi(av[1]);
-	jsp->ttd = ft_atoi(av[2]);
-	jsp->tte = ft_atoi(av[3]);
-	jsp->tts = ft_atoi(av[4]);
+	ma_structure->philosophes = ft_atoi(av[1]);
+	ma_structure->ttd = ft_atoi(av[2]);
+	ma_structure->tte = ft_atoi(av[3]);
+	ma_structure->tts = ft_atoi(av[4]);
 	if (ac == 6)
 	{
-		jsp->notepme = ft_atoi(av[5]);
-		if (jsp->notepme < 0)
+		ma_structure->notepme = ft_atoi(av[5]);
+		if (ma_structure->notepme < 0)
 			return (printf("Erreur : aucun argument ne peut etre inferieur a 0.\n"), 1);
 	}
-	if (jsp->philosophes < 0 || jsp->ttd < 0 || jsp->tte < 0 || jsp->tts < 0)
+	if (ma_structure->philosophes < 0 || ma_structure->ttd < 0 || ma_structure->tte < 0 || ma_structure->tts < 0)
 		return (printf("Erreur : aucun argument ne peut etre inferieur a 0.\n"), 1);
-	else if (jsp->philosophes > 1024)
+	else if (ma_structure->philosophes > 1024)
 		return (printf("Erreur : il ne peut y avoir plus de 1024 philosophes.\n"), 1);
-	else if (jsp->philosophes == 0)
+	else if (ma_structure->philosophes == 0)
 		return (printf("Erreur : il n'y a pas de philosophes\n"), 1);
 	return (0);
 }

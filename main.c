@@ -40,9 +40,9 @@ int	ft_atoi(const char *nptr)
 
 int	main(int ac, char **av)
 {
-	t_struct	jsp;
+	t_struct	ma_structure;
 
-	gettimeofday(&jsp.info.debut, NULL);
+	gettimeofday(&ma_structure.info.debut, NULL);
 	//veirifie les nombre d'arguments entrés
 	if (ac > 6)
 		printf("trop d'arguments\n");
@@ -50,12 +50,12 @@ int	main(int ac, char **av)
 		printf("pas assez d'arguments\n");
 	else if (ac == 6 || ac == 5)
 	{
-		jsp.info.ac = ac;
+		ma_structure.info.ac = ac;
 		//verifie la validité des arguments grace a la fonction "ft_verif_args"
-		if (!ft_verif_args(ac, av, &jsp.info))
+		if (!ft_verif_args(ac, av, &ma_structure.info))
 		{
 			//creation de la liste chainee et initialisation des structures
-			if (ft_creation_table(&jsp))
+			if (ft_creation_table(&ma_structure))
 				printf("erreur\n");
 		}
 	}

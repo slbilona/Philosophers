@@ -47,6 +47,7 @@ typedef struct s_struct
 {
 	int					index;
 	struct s_info		info;
+	pthread_mutex_t		mort;
 	struct s_philosophe	*philosophe;
 }	t_struct;
 
@@ -58,14 +59,15 @@ int				ft_atoi(const char *nptr);
 
 int				ft_isdigit(int c);
 int				ft_chiffres(char **av, int j, int i);
-int				ft_verif_args(int ac, char **av, t_info *jsp);
+int				ft_verif_args(int ac, char **av, t_info *ma_structure);
 
 // creation_thread
 
-int				ft_creation_table(t_struct *jsp);
-int				ft_thread_philo(t_struct *jsp);
+int				ft_creation_table(t_struct *ma_structure);
+int				ft_thread_philo(t_struct *ma_structure);
 int				ft_initialisation(t_philosophe *actuel);
 void			*ft_philo(void *actuel);
+int	test_lancement_thread(t_struct *ma_structure);
 
 // listes chainees
 
