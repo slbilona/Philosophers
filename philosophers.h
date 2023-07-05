@@ -29,6 +29,7 @@ typedef struct s_info
 	int	tts;
 	int	notepme;
 	struct timeval debut;
+	pthread_mutex_t		mort;
 }	t_info;
 
 typedef struct s_philosophe
@@ -45,9 +46,7 @@ typedef struct s_philosophe
 
 typedef struct s_struct
 {
-	int					index;
 	struct s_info		info;
-	pthread_mutex_t		mort;
 	struct s_philosophe	*philosophe;
 }	t_struct;
 

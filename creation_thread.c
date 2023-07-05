@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   creation_thread.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ilselbon <ilselbon@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 22:10:30 by ilselbon          #+#    #+#             */
-/*   Updated: 2023/06/23 20:38:38 by ilselbon         ###   ########.fr       */
+/*   Updated: 2023/07/05 20:26:20 by ilona            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,26 +52,71 @@ int ft_verif_philos(t_struct *ma_structure)
 	return (0);
 }
 
+void	ft_fourchettes_droitier()
+{
+	pthread_mutex_lock(&actuel->fourchette_d);
+	printf("%ld %d has taken a fork\n", ft_time(ma_structure), actuel->i);
+	gettimeofday(&temps2, NULL);
+	// if((temps2.tv_usec - temps1.tv_usec) > m_s->info.ttd)
+	// {
+	// 	actuel->vie = 0;
+	// 	printf("%ld %d died\n", ft_time(ma_structure), actuel->i);
+	// 	return (1);
+	// }
+	// if(!ft_verif_philos(ma_structure))
+	// 	return (1);
+	pthread_mutex_lock(actuel->fourchette_g);
+	printf("%ld %d has taken a fork\n", ft_time(ma_structure), actuel->i);
+	
+}
+
+int ft_repas(void *ma_structure, t_philosophe *actuel, struct timeval temps1, struct timeval temps2)
+{
+	t_struct		*m_s;
+
+	m_s = ma_structure;
+	if(!ft_verif_philos(ma_structure))
+		return (1);
+	ft_fourchettes_droitier();gettimeofday(&temps2, NULL);
+	if((temps2.tv_usec - temps1.tv_usec) > m_s->info.ttd)
+	{
+		actuel->vie = 0;
+		printf("%ld %d died\n", ft_time(ma_structure), actuel->i);
+		return (1);
+	}
+	if(!ft_verif_philos(ma_structure))
+		return (1);
+	printf("%ld %d is eating\n", ft_time(ma_structure), actuel->i);
+	actuel->nb_de_repas++;
+	//printf("le philosophe numero %d a mange %d fois\n", actuel->i, actuel->nb_de_repas);
+	ft_usleep(m_s->info.tte);
+	gettimeofday(&temps1, NULL);
+	pthread_mutex_unlock(actuel->fourchette_g);
+	pthread_mutex_unlock(&actuel->fourchette_d);
+	actuel->sdk = 1;
+	return (0);
+}
+
 void	*ft_philo(void *ma_structure)
 {
-	t_struct		*je_sais_pas;
+	t_struct		*m_s;
 	t_philosophe	*actuel;
 	struct timeval temps1;
 	struct timeval temps2;
 
-	je_sais_pas = (t_struct *) ma_structure;
-	actuel = je_sais_pas->philosophe;
+	m_s = (t_struct *) ma_structure;
+	actuel = m_s->philosophe;
 	//trouver le bon actuel grace a l'index
-	printf("ma_structure index : %d\n", je_sais_pas->index);
-	while (je_sais_pas->index != actuel->i)
+	//printf("ma_structure index : %d, actuel->i .%d\n", m_s->index, actuel->i);
+	while (actuel->i != m_s->index)
 		actuel = actuel->next;
-	temps1.tv_usec = je_sais_pas->info.debut.tv_usec;
+	temps1.tv_usec = m_s->info.debut.tv_usec;
 	printf("thread numero %d s'est lancé\n", actuel->i);
 	while (ft_verif_philos(ma_structure) == 1)
 	{
 		//prends le temps du debut de la boucle
 		gettimeofday(&temps2, NULL);
-		if((temps2.tv_usec - temps1.tv_usec) > je_sais_pas->info.ttd)
+		if((temps2.tv_usec - temps1.tv_usec) > m_s->info.ttd)
 		{
 			actuel->vie = 0;
 			printf("%ld %d died1 \n", ft_time(ma_structure), actuel->i);
@@ -79,44 +124,14 @@ void	*ft_philo(void *ma_structure)
 		}
 		if (actuel->sdk == 3)
 		{
-			if(!ft_verif_philos(ma_structure))
-				return NULL;
-			pthread_mutex_lock(&actuel->fourchette_d);
-			printf("%ld %d has taken a fork (droite)\n", ft_time(ma_structure), actuel->i);
-			gettimeofday(&temps2, NULL);
-			if((temps2.tv_usec - temps1.tv_usec) > je_sais_pas->info.ttd)
-			{
-				actuel->vie = 0;
-				printf("%ld %d died 2\n", ft_time(ma_structure), actuel->i);
+			if(ft_repas(ma_structure, actuel, temps1, temps2))
 				return (NULL);
-			}
-			if(!ft_verif_philos(ma_structure))
-				return NULL;
-			pthread_mutex_lock(actuel->fourchette_g);
-			printf("%ld %d has taken a fork (gauche)\n", ft_time(ma_structure), actuel->i);
-			gettimeofday(&temps2, NULL);
-			if((temps2.tv_usec - temps1.tv_usec) > je_sais_pas->info.ttd)
-			{
-				;
-				actuel->vie = 0;
-				return (printf("%ld %d died 3\n", ft_time(ma_structure), actuel->i), 	NULL);
-			}
-			if(!ft_verif_philos(ma_structure))
-				return NULL;
-			printf("%ld %d is eating\n", ft_time(ma_structure), actuel->i);
-			actuel->nb_de_repas++;
-			//printf("le philosophe numero %d a mange %d fois\n", actuel->i, actuel->nb_de_repas);
-			ft_usleep(je_sais_pas->info.tte);
-			gettimeofday(&temps1, NULL);
-			pthread_mutex_unlock(actuel->fourchette_g);
-			pthread_mutex_unlock(&actuel->fourchette_d);
-			actuel->sdk = 1;
 		}
 		else if (actuel->sdk == 1 && ft_verif_philos(ma_structure))
 		{
 			printf("%ld %d is sleeping\n", ft_time(ma_structure), actuel->i);
-			//printf("tts : %d\n\n", je_sais_pas->info.tts);
-			ft_usleep(je_sais_pas->info.tts);
+			//printf("tts : %d\n\n", m_s->info.tts);
+			ft_usleep(m_s->info.tts);
 			actuel->sdk = 2;
 		}
 		else if (actuel->sdk == 2 && ft_verif_philos(ma_structure))
@@ -162,7 +177,6 @@ int	test_lancement_thread(t_struct *ma_structure)
 
 	j = 2;
 	premier = &ma_structure->philosophe;
-	actuel = *premier;
 	while(j)
 	{
 		if (j == 2)
@@ -174,13 +188,18 @@ int	test_lancement_thread(t_struct *ma_structure)
 		}
 		while(actuel)
 		{
+			//printf("%d\n", actuel->i);
+			ma_structure->index = actuel->i;
 			if (pthread_create(&actuel->philo, NULL, ft_philo, (void *)ma_structure))
 			{
 				printf("la creation du thread numero %d a echouee\n", actuel->i);
 				return (1);
 			}
-			ft_usleep(10);
-			actuel = actuel->next->next;
+			ft_usleep(50);
+			if(actuel->next)
+				actuel = actuel->next->next;
+			else
+				actuel = actuel->next;
 		}
 		j--;
 	}
@@ -197,7 +216,6 @@ int	test_lancement_thread(t_struct *ma_structure)
 	return (0);
 }
 
-/*
 // initialise autant de thread qu'il y a de philosophes
 int	ft_thread_philo(t_struct *ma_structure)
 {
@@ -255,7 +273,7 @@ int	ft_thread_philo(t_struct *ma_structure)
 	}
 	return (0);
 }
-*/
+
 void	ft_premiere_fouchette_gauche(t_philosophe **premier)
 {
 	t_philosophe	*numero_un;
