@@ -6,7 +6,7 @@
 /*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 12:36:59 by ilona             #+#    #+#             */
-/*   Updated: 2023/07/06 13:38:45 by ilona            ###   ########.fr       */
+/*   Updated: 2023/07/06 15:05:12 by ilona            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,5 +48,16 @@ void	*ft_philo(void *ma_structure)
 // Les philosophes prennent leur fourchettes et mangent
 int	ft_eat(t_struct *m_s, t_philosophe *actuel)
 {
-	
+	if (actuel->i == 1)
+		ft_gaucher();
+	else
+		ft_droitier();
+	if(actuel->time_of_death < ft_time(m_s))
+	{
+		ft_mort();
+		return (NULL);
+	}
+	printf("%ld %d is eating\n", ft_time(ma_structure), actuel->i);
+	actuel->nb_de_repas++;
+	ft_usleep(m_s->info.tte);
 }
