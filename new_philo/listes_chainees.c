@@ -6,7 +6,7 @@
 /*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 22:12:42 by ilselbon          #+#    #+#             */
-/*   Updated: 2023/07/06 11:21:58 by ilona            ###   ########.fr       */
+/*   Updated: 2023/07/06 11:23:55 by ilona            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ t_philosophe	*ft_lstnew(int i)
 	new = malloc(sizeof(t_philosophe));
 	if (!new)
 		return (NULL);
-	if(pthread_mutex_init(&new->fourchette_d, NULL) != 0)
+	if (pthread_mutex_init(&new->fourchette_d, NULL) != 0)
 		return (free(new), NULL);
 	new->i = i + 1;
 	new->philo = i;
@@ -36,7 +36,7 @@ t_philosophe	*ft_lstadd_back(t_philosophe **lst, t_philosophe *new)
 {
 	t_philosophe	*actuel;
 
-	if(!*lst && new)
+	if (!*lst && new)
 	{
 		*lst = new;
 		return (new);

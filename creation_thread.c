@@ -6,7 +6,7 @@
 /*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 22:10:30 by ilselbon          #+#    #+#             */
-/*   Updated: 2023/07/05 20:26:20 by ilona            ###   ########.fr       */
+/*   Updated: 2023/07/06 13:31:34 by ilona            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int ft_verif_philos(t_struct *ma_structure)
 		return (1);
 	return (0);
 }
-
+/*
 void	ft_fourchettes_droitier()
 {
 	pthread_mutex_lock(&actuel->fourchette_d);
@@ -93,30 +93,30 @@ int ft_repas(void *ma_structure, t_philosophe *actuel, struct timeval temps1, st
 	gettimeofday(&temps1, NULL);
 	pthread_mutex_unlock(actuel->fourchette_g);
 	pthread_mutex_unlock(&actuel->fourchette_d);
-	actuel->sdk = 1;
+	actuel->sdk = 2;
 	return (0);
 }
-
-void	*ft_philo(void *ma_structure)
+*/
+void	*ft_philo(void *m_s)
 {
-	t_struct		*m_s;
+	t_struct *ma_structure;
 	t_philosophe	*actuel;
 	struct timeval temps1;
 	struct timeval temps2;
 
-	m_s = (t_struct *) ma_structure;
-	actuel = m_s->philosophe;
+	ma_structure = m_s;
+	actuel = ma_structure->philosophe;
 	//trouver le bon actuel grace a l'index
-	//printf("ma_structure index : %d, actuel->i .%d\n", m_s->index, actuel->i);
-	while (actuel->i != m_s->index)
+	//printf("ma_structure index : %d, actuel->i .%d\n", ma_structure->index, actuel->i);
+	while (actuel->i != ma_structure->info.index)
 		actuel = actuel->next;
-	temps1.tv_usec = m_s->info.debut.tv_usec;
+	temps1.tv_usec = ma_structure->info.debut.tv_usec;
 	printf("thread numero %d s'est lancé\n", actuel->i);
 	while (ft_verif_philos(ma_structure) == 1)
 	{
 		//prends le temps du debut de la boucle
 		gettimeofday(&temps2, NULL);
-		if((temps2.tv_usec - temps1.tv_usec) > m_s->info.ttd)
+		if((temps2.tv_usec - temps1.tv_usec) > ma_structure->info.ttd)
 		{
 			actuel->vie = 0;
 			printf("%ld %d died1 \n", ft_time(ma_structure), actuel->i);
@@ -124,17 +124,17 @@ void	*ft_philo(void *ma_structure)
 		}
 		if (actuel->sdk == 3)
 		{
-			if(ft_repas(ma_structure, actuel, temps1, temps2))
-				return (NULL);
-		}
-		else if (actuel->sdk == 1 && ft_verif_philos(ma_structure))
-		{
-			printf("%ld %d is sleeping\n", ft_time(ma_structure), actuel->i);
-			//printf("tts : %d\n\n", m_s->info.tts);
-			ft_usleep(m_s->info.tts);
-			actuel->sdk = 2;
+			//if(ft_repas(ma_structure, actuel, temps1, temps2))
+			//	return (NULL);
 		}
 		else if (actuel->sdk == 2 && ft_verif_philos(ma_structure))
+		{
+			printf("%ld %d is sleeping\n", ft_time(ma_structure), actuel->i);
+			//printf("tts : %d\n\n", ma_structure->info.tts);
+			ft_usleep(ma_structure->info.tts);
+			actuel->sdk = 1;
+		}
+		else if (actuel->sdk == 1 && ft_verif_philos(ma_structure))
 		{
 			printf("%ld %d is thinking\n", ft_time(ma_structure), actuel->i);
 			ft_usleep(10);
@@ -151,117 +151,12 @@ void	*ft_philo(void *ma_structure)
 3 :	att de manger
 */
 
-// initialise chaque maillon de la liste chainee
-int	ft_initialisation(t_philosophe *actuel)
-{
-	if (actuel)
-	{
-		actuel->i = 0;
-		actuel->vie = 1;
-		actuel->fourchette_g = NULL;
-		pthread_mutex_init(&actuel->fourchette_d, NULL);
-		actuel->philo = 0;
-		actuel->next = NULL;
-		actuel->sdk = 3;
-		actuel->nb_de_repas = 0;
-	}
-	return (0);
-}
-
-//POUR REMPLACER LA FONCTION JUSTE EN DESSOUS MAIS FONCTIONNE PAS ENCORE 
-int	test_lancement_thread(t_struct *ma_structure)
+// Utilise la fontion pthread_join sur toue les threads
+int ft_join(t_struct *ma_structure)
 {
 	t_philosophe *actuel;
-	t_philosophe **premier;
-	int j;
 
-	j = 2;
-	premier = &ma_structure->philosophe;
-	while(j)
-	{
-		if (j == 2)
-			actuel = *premier;
-		else
-		{
-			actuel = *premier;
-			actuel = actuel->next;
-		}
-		while(actuel)
-		{
-			//printf("%d\n", actuel->i);
-			ma_structure->index = actuel->i;
-			if (pthread_create(&actuel->philo, NULL, ft_philo, (void *)ma_structure))
-			{
-				printf("la creation du thread numero %d a echouee\n", actuel->i);
-				return (1);
-			}
-			ft_usleep(50);
-			if(actuel->next)
-				actuel = actuel->next->next;
-			else
-				actuel = actuel->next;
-		}
-		j--;
-	}
-	actuel = *premier;
-	while (actuel)
-	{
-		if (pthread_join(actuel->philo, NULL))
-		{
-			printf("le join numero %d a echoue\n", actuel->i);
-			return (1);
-		}
-		actuel = actuel->next;
-	}
-	return (0);
-}
-
-// initialise autant de thread qu'il y a de philosophes
-int	ft_thread_philo(t_struct *ma_structure)
-{
-	t_philosophe	**premier;
-	t_philosophe	*actuel;
-	int				j;
-
-	premier = &ma_structure->philosophe;
-	j = 2;
-	while(j)
-	{
-		actuel = *premier;
-		while (actuel)
-		{
-			ma_structure->index = actuel->i;
-			if(j == 2)
-			{
-				if (actuel->i % 2 != 0)
-				{
-					printf("actuel->i : %d\n", actuel->i);
-					if (pthread_create(&actuel->philo, NULL, ft_philo, (void *)ma_structure))
-					{
-						printf("la creation du thread numero %d a echouee\n", actuel->i);
-						return (1);
-					}
-					ft_usleep(10);
-				}
-			}
-			if (j == 1)
-			{
-				if (actuel->i % 2 == 0)
-				{
-					printf("actuel->i : %d\n", actuel->i);
-					if (pthread_create(&actuel->philo, NULL, ft_philo, (void *)ma_structure))
-					{
-						printf("la creation du thread numero %d a echouee\n", actuel->i);
-						return (1);
-					}
-					ft_usleep(10);
-				}
-			}
-			actuel = actuel->next;
-		}
-		j--;
-	}
-	actuel = *premier;
+	actuel = ma_structure->philosophe;
 	while (actuel)
 	{
 		if (pthread_join(actuel->philo, NULL))
@@ -286,6 +181,56 @@ void	ft_premiere_fouchette_gauche(t_philosophe **premier)
 	numero_un->fourchette_g = &dernier->fourchette_d;
 }
 
+//	Lance chaque threads 
+int	test_lancement_thread(t_struct *ma_structure)
+{
+	t_philosophe *actuel;
+	int j;
+
+	j = 2;
+	actuel = ma_structure->philosophe;
+	while (j)
+	{
+		if (j != 2)
+			actuel = actuel->next;
+		while (actuel)
+		{
+			//printf("%d\n", actuel->i);
+			ma_structure->info.index = actuel->i;
+			if (pthread_create(&actuel->philo, NULL, ft_philo, ma_structure))
+			{
+				printf("la création du thread numero %d a echouée\n", actuel->i);
+				return (1);
+			}
+			ft_usleep(50);
+			if(actuel->next)
+				actuel = actuel->next->next;
+			else
+				actuel = actuel->next;
+		}
+		j--;
+	}
+	return (ft_join(ma_structure));
+}
+
+int	ft_lstsize(t_philosophe *lst)
+{
+	t_philosophe	*actuel;
+	int		i;
+
+	actuel = lst;
+	if (actuel)
+		i = 1;
+	else
+		return (0);
+	while (actuel->next)
+	{
+		actuel = actuel->next;
+		i++;
+	}
+	return (i);
+}
+
 // Cree la liste chainee et les thread
 int	ft_creation_table(t_struct *ma_structure)
 {
@@ -294,34 +239,24 @@ int	ft_creation_table(t_struct *ma_structure)
 	int				i;
 
 	i = 0;
-	ma_structure->philosophe = ft_lstnew(i); // creation du premier philosophe
-	if (!ma_structure->philosophe)
-		return (1);
-	actuel = ma_structure->philosophe;
-	if (ft_initialisation(actuel)) //initialisation du premier philosophe
-	 	return (1);
+	ma_structure->philosophe = NULL;
 	// boucle de creation de tous les philosophes dans la liste chainee
 	while (i < ma_structure->info.philosophes)
 	{
-		if (i != 0)
-		{
-			actuel = ft_lstadd_back(&ma_structure->philosophe, ft_lstnew(i));
-			if (!actuel)
-				return (1);
-			if (ft_initialisation(actuel))
-				return (1);
+		actuel = ft_lstadd_back(&ma_structure->philosophe, ft_lstnew(i));
+		if (!actuel)
+			return (1);
+		if(i != 0)
 			actuel->fourchette_g = &temp->fourchette_d;
-		}
-		actuel->i = i + 1;
-		actuel->philo = i;
 		temp = actuel;
 		i++;
 	}
 	if (i >= 1)
 		ma_structure->philosophe->fourchette_g = &actuel->fourchette_d;
-	if (test_lancement_thread(ma_structure))
-		return (ft_vide_liste(&ma_structure->philosophe));
+	//if (test_lancement_thread(ma_structure))
+	//	return (ft_vide_liste(&ma_structure->philosophe));
 	ft_vide_liste(&ma_structure->philosophe);
 	printf("parfait\n");
 	return (0);
 }
+
