@@ -5,6 +5,7 @@ SRCS = main.c \
 	utils.c \
 	repas.c \
 	checker.c \
+	routine.c \
 	listes_chainees.c \
 	creation_thread.c \
 

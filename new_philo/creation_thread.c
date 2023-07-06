@@ -6,7 +6,7 @@
 /*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 12:32:25 by ilona             #+#    #+#             */
-/*   Updated: 2023/07/06 12:57:47 by ilona            ###   ########.fr       */
+/*   Updated: 2023/07/06 18:54:13 by ilona            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,8 @@ int	ft_creation_table(t_struct *ma_structure)
 	}
 	if (i >= 1)
 		ma_structure->philosophe->fourchette_g = &actuel->fourchette_d;
-	//if (test_lancement_thread(ma_structure))
-	//	return (ft_vide_liste(&ma_structure->philosophe));
-	ft_vide_liste(&ma_structure->philosophe);
+	ft_lancement_thread(ma_structure);
+	ft_vide_liste(ma_structure);
 	printf("parfait\n");
 	return (0);
 }
@@ -44,29 +43,23 @@ int	ft_creation_table(t_struct *ma_structure)
 int	ft_lancement_thread(t_struct *ma_structure)
 {
 	t_philosophe	*actuel;
-	int				j;
 
-	j = 2;
 	actuel = ma_structure->philosophe;
-	while (j)
+	ma_structure->actuel = NULL;
+	while (actuel)
 	{
-		if (j != 2)
-			actuel = actuel->next;
-		while (actuel)
+		//printf("ft_lancement_thread\n");
+		if(ma_structure->actuel == NULL)
 		{
-			ma_structure->info.index = actuel->i;
+			//printf("actuel->i : %d\n", actuel->i);
+			ma_structure->actuel = actuel;
 			if (pthread_create(&actuel->philo, NULL, ft_philo, ma_structure))
 			{
 				printf("la création du thread numero %d a echouée\n", actuel->i);
 				return (1);
 			}
-			ft_usleep(50);
-			if (actuel->next)
-				actuel = actuel->next->next;
-			else
-				actuel = actuel->next;
+			actuel = actuel->next;
 		}
-		j--;
 	}
 	return (ft_join(ma_structure));
 }

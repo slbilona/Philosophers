@@ -6,7 +6,7 @@
 /*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 22:12:42 by ilselbon          #+#    #+#             */
-/*   Updated: 2023/07/06 11:23:55 by ilona            ###   ########.fr       */
+/*   Updated: 2023/07/06 18:28:55 by ilona            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,12 +53,13 @@ t_philosophe	*ft_lstadd_back(t_philosophe **lst, t_philosophe *new)
 	return (NULL);
 }
 
-int	ft_vide_liste(t_philosophe **pile)
+void	ft_vide_liste(t_struct *m_s)
 {
 	t_philosophe	*actuel;
 	t_philosophe	*temp;
 
-	actuel = *pile;
+	printf("ft_vide_liste\n");
+	actuel = m_s->philosophe;
 	while (actuel)
 	{
 		temp = actuel;
@@ -66,5 +67,5 @@ int	ft_vide_liste(t_philosophe **pile)
 		actuel = actuel->next;
 		free(temp);
 	}
-	return (1);
+	pthread_mutex_destroy(&m_s->info.mutex_mort);
 }

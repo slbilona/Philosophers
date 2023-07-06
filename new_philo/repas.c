@@ -6,7 +6,7 @@
 /*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 12:36:59 by ilona             #+#    #+#             */
-/*   Updated: 2023/07/06 15:05:12 by ilona            ###   ########.fr       */
+/*   Updated: 2023/07/06 18:58:51 by ilona            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,9 @@ void	*ft_philo(void *ma_structure)
 	t_philosophe	*actuel;
 
 	m_s = ma_structure;
-	actuel = m_s->philosophe;
-	while (actuel->i != m_s->info.index)
-		actuel = actuel->next;
+	actuel = m_s->actuel;
+	m_s->actuel = NULL;
+	//printf("thread numero %d s'est lancé\n", actuel->i);
 	while (ft_verif_philos(m_s))
 	{
 		actuel->time_of_death = ft_time(m_s) + m_s->info.ttd;
@@ -31,33 +31,74 @@ void	*ft_philo(void *ma_structure)
 				return (NULL);
 		}
 		if (actuel->sdk == 2 && ft_verif_philos(m_s))
-		{
-			if (ft_sleep())
-				return (NULL);
-		}
+			ft_sleep(m_s, actuel);
 		if (actuel->sdk == 1 && ft_verif_philos(m_s))
 		{
-			printf("%ld %d is thinking\n", ft_time(ma_structure), actuel->i);
-			ft_usleep(10);
-			actuel->sdk = 3;
+			if(ft_think(m_s, actuel))
+				return (NULL);
 		}
 	}
+	//printf("fin d'execution thread numero %d\n", actuel->i);
 	return (NULL);
 }
 
 // Les philosophes prennent leur fourchettes et mangent
 int	ft_eat(t_struct *m_s, t_philosophe *actuel)
 {
-	if (actuel->i == 1)
-		ft_gaucher();
+	unsigned long	time;
+	if (actuel->i % 2 == 0)
+		ft_gauchers(m_s, actuel);
 	else
-		ft_droitier();
+		ft_droitiers(m_s, actuel);
 	if(actuel->time_of_death < ft_time(m_s))
-	{
-		ft_mort();
-		return (NULL);
-	}
-	printf("%ld %d is eating\n", ft_time(ma_structure), actuel->i);
-	actuel->nb_de_repas++;
+		return (ft_mort(m_s, actuel), 1);
+	time = ft_time(m_s);
+	printf("%ld %d is eating\n", time, actuel->i);
+	actuel->time_of_death = ft_time(m_s) + m_s->info.ttd;
 	ft_usleep(m_s->info.tte);
+	actuel->nb_de_repas++;
+	ft_lache_fourchette(actuel);
+	return (0);
+}
+
+void	ft_lache_fourchette(t_philosophe *actuel)
+{
+	pthread_mutex_unlock(actuel->fourchette_g);
+	pthread_mutex_unlock(&actuel->fourchette_d);
+	actuel->sdk = 2;
+}
+
+// Le philosophe commence en prenant sa fourchette gauche
+int	ft_gauchers(t_struct *m_s, t_philosophe *actuel)
+{
+	unsigned long	time;
+	pthread_mutex_lock(actuel->fourchette_g);
+	if(actuel->time_of_death < ft_time(m_s) || !ft_verif_philos(m_s))
+		return (ft_mort(m_s, actuel), 1);
+	time = ft_time(m_s);
+	printf("%ld %d has taken a fork\n", time, actuel->i);
+	pthread_mutex_lock(&actuel->fourchette_d);
+	if(actuel->time_of_death < ft_time(m_s) || !ft_verif_philos(m_s))
+		return (ft_mort(m_s, actuel), 1);
+	time = ft_time(m_s);
+	printf("%ld %d has taken a fork\n", time, actuel->i);
+	return (0);
+}
+
+// Le philosophe commence en prenant sa fourchette droite
+int	ft_droitiers(t_struct *m_s, t_philosophe *actuel)
+{
+	unsigned long	time;
+	
+	pthread_mutex_lock(&actuel->fourchette_d);
+	if(actuel->time_of_death < ft_time(m_s) || !ft_verif_philos(m_s))
+		return (ft_mort(m_s, actuel), 1);
+	time = ft_time(m_s);
+	printf("%ld %d has taken a fork\n", time, actuel->i);
+	pthread_mutex_lock(actuel->fourchette_g);
+	if(actuel->time_of_death < ft_time(m_s) || !ft_verif_philos(m_s))
+		return (ft_mort(m_s, actuel), 1);
+	time = ft_time(m_s);
+	printf("%ld %d has taken a fork\n", time, actuel->i);
+	return (0);
 }

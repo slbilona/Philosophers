@@ -6,7 +6,7 @@
 /*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 12:32:52 by ilona             #+#    #+#             */
-/*   Updated: 2023/07/06 12:33:29 by ilona            ###   ########.fr       */
+/*   Updated: 2023/07/06 18:00:18 by ilona            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ int	main(int ac, char **av)
 		printf("pas assez d'arguments\n");
 	else if (ac == 6 || ac == 5)
 	{
-		ma_structure.info.ac = ac;
 		if (!ft_verif_args(ac, av, &ma_structure.info))
 		{
 			if (ft_creation_table(&ma_structure))
