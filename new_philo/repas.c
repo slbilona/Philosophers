@@ -6,7 +6,7 @@
 /*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 12:36:59 by ilona             #+#    #+#             */
-/*   Updated: 2023/07/06 18:58:51 by ilona            ###   ########.fr       */
+/*   Updated: 2023/07/06 20:30:09 by ilona            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,25 +21,25 @@ void	*ft_philo(void *ma_structure)
 	m_s = ma_structure;
 	actuel = m_s->actuel;
 	m_s->actuel = NULL;
-	//printf("thread numero %d s'est lancé\n", actuel->i);
+	printf("%lu thread numero %d s'est lancé\n", ft_time(ma_structure), actuel->i);
 	while (ft_verif_philos(m_s))
 	{
 		actuel->time_of_death = ft_time(m_s) + m_s->info.ttd;
 		if (actuel->sdk == 3 && ft_verif_philos(m_s))
 		{
 			if (ft_eat(m_s, actuel))
-				return (NULL);
+			return (NULL);
 		}
 		if (actuel->sdk == 2 && ft_verif_philos(m_s))
 			ft_sleep(m_s, actuel);
 		if (actuel->sdk == 1 && ft_verif_philos(m_s))
 		{
 			if(ft_think(m_s, actuel))
-				return (NULL);
+			return (NULL);
 		}
 	}
-	//printf("fin d'execution thread numero %d\n", actuel->i);
 	return (NULL);
+	//return (printf("fin d'execution thread numero %d\n", actuel->i), NULL);
 }
 
 // Les philosophes prennent leur fourchettes et mangent

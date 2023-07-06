@@ -6,7 +6,7 @@
 /*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 22:12:42 by ilselbon          #+#    #+#             */
-/*   Updated: 2023/07/06 18:28:55 by ilona            ###   ########.fr       */
+/*   Updated: 2023/07/06 21:02:51 by ilona            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,13 +59,16 @@ void	ft_vide_liste(t_struct *m_s)
 	t_philosophe	*temp;
 
 	printf("ft_vide_liste\n");
-	actuel = m_s->philosophe;
-	while (actuel)
+	if(m_s->philosophe)
 	{
-		temp = actuel;
-		pthread_mutex_destroy(&temp->fourchette_d);
-		actuel = actuel->next;
-		free(temp);
+		actuel = m_s->philosophe;
+		while (actuel)
+		{
+			temp = actuel;
+			pthread_mutex_destroy(&temp->fourchette_d);
+			actuel = actuel->next;
+			free(temp);
+		}
 	}
 	pthread_mutex_destroy(&m_s->info.mutex_mort);
 }

@@ -6,7 +6,7 @@
 /*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 12:32:25 by ilona             #+#    #+#             */
-/*   Updated: 2023/07/06 18:54:13 by ilona            ###   ########.fr       */
+/*   Updated: 2023/07/06 21:02:03 by ilona            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,13 +45,25 @@ int	ft_lancement_thread(t_struct *ma_structure)
 	t_philosophe	*actuel;
 
 	actuel = ma_structure->philosophe;
+	// t_struct *thread_structure;
+	// pthread_mutex_t		mutex_mort;
+	
+	// pthread_mutex_init(&mutex_mort, NULL);
+	// ma_structure->mutex_mort = &mutex_mort;
 	ma_structure->actuel = NULL;
 	while (actuel)
 	{
+		// thread_structure = malloc(sizeof(t_struct)); // Alloue une nouvelle structure pour chaque thread
+		// if (!thread_structure) {
+		// 	printf("Erreur d'allocation mémoire pour la structure du thread\n");
+		// 	return 1;
+		// }
+		// memcpy(thread_structure, ma_structure, sizeof(t_struct)); // Copie les données de la structure principale dans la structure du thread
+		// thread_structure->actuel = actuel;
+		//printf("actuel->i : %d\n", actuel->i);
 		//printf("ft_lancement_thread\n");
 		if(ma_structure->actuel == NULL)
 		{
-			//printf("actuel->i : %d\n", actuel->i);
 			ma_structure->actuel = actuel;
 			if (pthread_create(&actuel->philo, NULL, ft_philo, ma_structure))
 			{
