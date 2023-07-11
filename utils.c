@@ -6,7 +6,7 @@
 /*   By: ilselbon <ilselbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 12:34:56 by ilona             #+#    #+#             */
-/*   Updated: 2023/07/11 06:00:33 by ilselbon         ###   ########.fr       */
+/*   Updated: 2023/07/11 08:40:02 by ilselbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ long int	ft_time(t_philosophe *philo)
 	struct timeval	rn;
 
 	gettimeofday(&rn, NULL);
-	return (rn.tv_usec - philo->info->debut.tv_usec);
+	return ((rn.tv_usec - philo->info->debut.tv_usec)/1000);
 }
 
 long int	ft_time2(struct timeval debut)
@@ -52,7 +52,7 @@ long int	ft_time2(struct timeval debut)
 	struct timeval	rn;
 
 	gettimeofday(&rn, NULL);
-	return (rn.tv_usec - debut.tv_usec);
+	return ((rn.tv_usec - debut.tv_usec)/1000);
 }
 
 void	ft_usleep(int tmp, t_philosophe *philo)
@@ -66,4 +66,9 @@ void	ft_usleep(int tmp, t_philosophe *philo)
 	actuel = debut;
 	while (tmp > (actuel - debut) && ft_verif_philos(philo))
 		actuel = ft_time2(deb);
+}
+
+void	ft_destroy(t_struct *m_s)
+{
+	
 }

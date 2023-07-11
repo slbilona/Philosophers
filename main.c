@@ -6,7 +6,7 @@
 /*   By: ilselbon <ilselbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 12:32:52 by ilona             #+#    #+#             */
-/*   Updated: 2023/07/11 02:29:59 by ilselbon         ###   ########.fr       */
+/*   Updated: 2023/07/11 06:46:03 by ilselbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ int	main(int ac, char **av)
 {
 	t_struct	ma_structure;
 
-	gettimeofday(&ma_structure.info.debut, NULL);
 	if (ac > 6)
 		printf("Erreur : trop d'arguments\n");
 	else if (ac < 5)

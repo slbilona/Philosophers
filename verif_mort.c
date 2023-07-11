@@ -6,7 +6,7 @@
 /*   By: ilselbon <ilselbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 05:32:50 by ilselbon          #+#    #+#             */
-/*   Updated: 2023/07/11 06:00:11 by ilselbon         ###   ########.fr       */
+/*   Updated: 2023/07/11 08:18:49 by ilselbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,10 @@ int	ft_mort(t_philosophe actuel)
 	int				stop;
 
 	stop = 0;
+	//pthread_mutex_lock(&actuel.mutex);
 	if (actuel.time_of_death < ft_time(&actuel))
 	{
+	//	pthread_mutex_unlock(&actuel.mutex);
 		pthread_mutex_lock(&actuel.info->mutex_mort);
 		actuel.info->i_mort = 0;
 		stop = 1;

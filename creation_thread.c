@@ -6,7 +6,7 @@
 /*   By: ilselbon <ilselbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 12:32:25 by ilona             #+#    #+#             */
-/*   Updated: 2023/07/11 06:08:03 by ilselbon         ###   ########.fr       */
+/*   Updated: 2023/07/11 08:40:24 by ilselbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ void	ft_init_tab(t_struct *ma_structure)
 	i = 0;
 	while (i < ma_structure->info.nb_de_philos)
 	{
+		pthread_mutex_init(&ma_structure->tab->fourchette_d, NULL);
+		pthread_mutex_init(&ma_structure->tab->mutex, NULL);
 		ma_structure->tab[i].i = i + 1;
 		ma_structure->tab[i].vie = 0;
 		ma_structure->tab[i].sdk = 3;
@@ -27,8 +29,9 @@ void	ft_init_tab(t_struct *ma_structure)
 		ma_structure->tab[i].philo = i;
 		ma_structure->tab[i].ate = 0;
 		ma_structure->tab[i].info = &ma_structure->info;
+		//pthread_mutex_lock(&ma_structure->tab->mutex);
 		ma_structure->tab[i].time_of_death = ma_structure->info.ttd;
-		pthread_mutex_init(&ma_structure->tab->fourchette_d, NULL);
+		//pthread_mutex_unlock(&ma_structure->tab->mutex);
 		i++;
 	}
 }
@@ -53,7 +56,7 @@ int	ft_creation_table(t_struct *m_s)
 		i--;
 	}
 	ft_lancement_thread(m_s);
-	//free le tableau
+	ft_destroy();
 	printf("parfait\n");
 	return (0);
 }

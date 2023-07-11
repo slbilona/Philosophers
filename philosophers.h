@@ -6,7 +6,7 @@
 /*   By: ilselbon <ilselbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 12:36:38 by ilona             #+#    #+#             */
-/*   Updated: 2023/07/11 06:05:13 by ilselbon         ###   ########.fr       */
+/*   Updated: 2023/07/11 08:09:19 by ilselbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,9 +43,10 @@ typedef struct s_philosophes
 	int						ate;
 	int						nb_de_repas;
 	void					*fourchette_g;
+	long int				time_of_death;
 	pthread_t				philo;
 	struct s_info			*info;
-	long int				time_of_death;
+	pthread_mutex_t			mutex;
 	pthread_mutex_t			fourchette_d;
 }	t_philosophe;
 

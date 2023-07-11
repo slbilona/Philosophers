@@ -6,7 +6,7 @@
 /*   By: ilselbon <ilselbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 22:10:32 by ilselbon          #+#    #+#             */
-/*   Updated: 2023/07/11 04:30:29 by ilselbon         ###   ########.fr       */
+/*   Updated: 2023/07/11 06:49:34 by ilselbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ int	ft_chiffres(char **av, int j, int i)
 // Initialise la structure info
 void	ft_init_info(char **av, t_info *info)
 {
+	gettimeofday(&info->debut, NULL);
 	info->nb_de_philos = ft_atoi(av[1]);
 	info->ttd = ft_atoi(av[2]);
 	info->tte = ft_atoi(av[3]);

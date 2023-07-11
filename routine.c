@@ -6,7 +6,7 @@
 /*   By: ilselbon <ilselbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 06:02:03 by ilselbon          #+#    #+#             */
-/*   Updated: 2023/07/11 06:02:10 by ilselbon         ###   ########.fr       */
+/*   Updated: 2023/07/11 07:38:31 by ilselbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ int	ft_think(t_philosophe *actuel)
 	}
 	printf("%ld %d is thinking\n", ft_time(actuel), actuel->i);
 	pthread_mutex_unlock(&actuel->info->m_printf);
-	ft_usleep(5, actuel);
 	actuel->sdk = 3;
 	return (0);
 }

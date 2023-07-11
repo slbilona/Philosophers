@@ -6,7 +6,7 @@
 /*   By: ilselbon <ilselbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 12:36:59 by ilona             #+#    #+#             */
-/*   Updated: 2023/07/11 06:32:50 by ilselbon         ###   ########.fr       */
+/*   Updated: 2023/07/11 08:18:56 by ilselbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,9 @@ int	ft_eat(t_philosophe *actuel)
 		pthread_mutex_unlock(&actuel->info->m_printf);
 		return (1);
 	}
+	//pthread_mutex_lock(&actuel->mutex);
 	actuel->time_of_death = ft_time(actuel) + actuel->info->ttd;
+	//pthread_mutex_unlock(&actuel->mutex);
 	time = ft_time(actuel);
 	printf("%ld %d is eating\n", time, actuel->i);
 	pthread_mutex_unlock(&actuel->info->m_printf);
