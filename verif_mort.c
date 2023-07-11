@@ -6,7 +6,7 @@
 /*   By: ilselbon <ilselbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 05:32:50 by ilselbon          #+#    #+#             */
-/*   Updated: 2023/07/11 05:52:54 by ilselbon         ###   ########.fr       */
+/*   Updated: 2023/07/11 06:00:11 by ilselbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,10 @@
 int	ft_mort(t_philosophe actuel)
 {
 	unsigned long	time;
-	int stop;
+	int				stop;
 
 	stop = 0;
-    if(actuel.time_of_death < ft_time(&actuel))
+	if (actuel.time_of_death < ft_time(&actuel))
 	{
 		pthread_mutex_lock(&actuel.info->mutex_mort);
 		actuel.info->i_mort = 0;
@@ -34,7 +34,7 @@ int	ft_mort(t_philosophe actuel)
 
 int	ft_verif_philos(t_philosophe *actuel)
 {
-	int ret;
+	int	ret;
 
 	ret = 1;
 	pthread_mutex_lock(&actuel->info->mutex_mort);
@@ -43,14 +43,14 @@ int	ft_verif_philos(t_philosophe *actuel)
 	return (ret);
 }
 
-void check_death(t_struct *ma_structure)
+void	check_death(t_struct *ma_structure)
 {
-	int i;
+	int	i;
 
-	while(1)
+	while (1)
 	{
 		i = 0;
-		while(i < ma_structure->info.nb_de_philos)
+		while (i < ma_structure->info.nb_de_philos)
 		{
 			if (ft_mort(ma_structure->tab[i]))
 				return ;

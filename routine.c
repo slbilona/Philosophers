@@ -1,9 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   routine.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ilselbon <ilselbon@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/07/11 06:02:03 by ilselbon          #+#    #+#             */
+/*   Updated: 2023/07/11 06:02:10 by ilselbon         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "philosophers.h"
 
 int	ft_sleep(t_philosophe *actuel)
 {
 	pthread_mutex_lock(&actuel->info->m_printf);
-	if(!ft_verif_philos(actuel))
+	if (!ft_verif_philos(actuel))
 	{
 		pthread_mutex_unlock(&actuel->info->m_printf);
 		return (1);
@@ -18,7 +30,7 @@ int	ft_sleep(t_philosophe *actuel)
 int	ft_think(t_philosophe *actuel)
 {
 	pthread_mutex_lock(&actuel->info->m_printf);
-	if(!ft_verif_philos(actuel))
+	if (!ft_verif_philos(actuel))
 	{
 		pthread_mutex_unlock(&actuel->info->m_printf);
 		return (1);

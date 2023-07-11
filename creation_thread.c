@@ -6,7 +6,7 @@
 /*   By: ilselbon <ilselbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 12:32:25 by ilona             #+#    #+#             */
-/*   Updated: 2023/07/11 05:51:09 by ilselbon         ###   ########.fr       */
+/*   Updated: 2023/07/11 06:08:03 by ilselbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 
 void	ft_init_tab(t_struct *ma_structure)
 {
-	int i;
+	int	i;
 
 	i = 0;
-	while(i < ma_structure->info.nb_de_philos)
+	while (i < ma_structure->info.nb_de_philos)
 	{
 		ma_structure->tab[i].i = i + 1;
 		ma_structure->tab[i].vie = 0;
@@ -33,53 +33,54 @@ void	ft_init_tab(t_struct *ma_structure)
 	}
 }
 
-int	ft_creation_table(t_struct *ma_structure)
+int	ft_creation_table(t_struct *m_s)
 {
-	int i;
+	int	i;
 
 	i = 0;
-	ma_structure->tab = malloc(sizeof(t_philosophe) * ma_structure->info.nb_de_philos);
-	if(!ma_structure->tab)
-		return 1;
-	ft_init_tab(ma_structure);
-	i = ma_structure->info.nb_de_philos - 1;
-	while(i >= 0)
+	m_s->tab = malloc(sizeof(t_philosophe) * m_s->info.nb_de_philos);
+	if (!m_s->tab)
+		return (1);
+	ft_init_tab(m_s);
+	i = m_s->info.nb_de_philos - 1;
+	while (i >= 0)
 	{
-		if(i != 0)
-			ma_structure->tab[i].fourchette_g = &ma_structure->tab[i - 1].fourchette_d;
+		if (i != 0)
+			m_s->tab[i].fourchette_g = &m_s->tab[i - 1].fourchette_d;
 		else
-			ma_structure->tab[i].fourchette_g = &ma_structure->tab[ma_structure->info.nb_de_philos - 1].fourchette_d;
+			m_s->tab[i].fourchette_g
+				= &m_s->tab[m_s->info.nb_de_philos - 1].fourchette_d;
 		i--;
 	}
-	ft_lancement_thread(ma_structure);
+	ft_lancement_thread(m_s);
 	//free le tableau
 	printf("parfait\n");
 	return (0);
 }
 
 //	Lance chaque threads 
-int	ft_lancement_thread(t_struct *ma_structure)
+int	ft_lancement_thread(t_struct *m_s)
 {
-	int i;
+	int	i;
 
 	i = 0;
-	while (i < ma_structure->info.nb_de_philos)
+	while (i < m_s->info.nb_de_philos)
 	{
-		if (pthread_create(&ma_structure->tab[i].philo, NULL, ft_philo, &ma_structure->tab[i]))
+		if (pthread_create(&m_s->tab[i].philo, NULL, ft_philo, &m_s->tab[i]))
 		{
-			printf("la création du thread numero %d a echouée\n", ma_structure->tab[i].i);
+			printf("la création du thread numero %d a echouée\n", m_s->tab[i].i);
 			return (1);
 		}
 		i++;
 	}
-	check_death(ma_structure);
-	return (ft_join(ma_structure));
+	check_death(m_s);
+	return (ft_join(m_s));
 }
 
 // Utilise la fontion pthread_join sur tous les threads
 int	ft_join(t_struct *ma_structure)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (i < ma_structure->info.nb_de_philos)

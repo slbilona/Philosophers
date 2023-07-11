@@ -6,7 +6,7 @@
 /*   By: ilselbon <ilselbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 12:34:56 by ilona             #+#    #+#             */
-/*   Updated: 2023/07/11 05:55:26 by ilselbon         ###   ########.fr       */
+/*   Updated: 2023/07/11 06:00:33 by ilselbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,6 @@ void	ft_usleep(int tmp, t_philosophe *philo)
 	gettimeofday(&deb, NULL);
 	debut = ft_time2(deb);
 	actuel = debut;
-	//verifier dans le while si aucun philosophe n'est mort
 	while (tmp > (actuel - debut) && ft_verif_philos(philo))
 		actuel = ft_time2(deb);
 }

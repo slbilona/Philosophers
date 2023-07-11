@@ -6,7 +6,7 @@
 /*   By: ilselbon <ilselbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 12:36:59 by ilona             #+#    #+#             */
-/*   Updated: 2023/07/11 05:41:23 by ilselbon         ###   ########.fr       */
+/*   Updated: 2023/07/11 06:32:50 by ilselbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,13 @@
 //
 void	*ft_philo(void *philo)
 {
-	t_philosophe *tab;
+	t_philosophe	*tab;
 
 	tab = (t_philosophe *) philo;
-	if(tab->i % 2)
+	if (tab->i % 2)
 		ft_usleep(tab->info->tte * 0.2, tab);
 	while (ft_verif_philos(tab))
 	{
-		tab->time_of_death = ft_time(tab) + tab->info->ttd;
 		if (tab->sdk == 3 && ft_verif_philos(tab))
 		{
 			if (ft_eat(tab))
@@ -30,12 +29,12 @@ void	*ft_philo(void *philo)
 		}
 		if (tab->sdk == 2 && ft_verif_philos(tab))
 		{
-			if(ft_sleep(tab))
+			if (ft_sleep(tab))
 				return (NULL);
 		}
 		if (tab->sdk == 1 && ft_verif_philos(tab))
 		{
-			if(ft_think(tab))
+			if (ft_think(tab))
 				return (NULL);
 		}
 	}
@@ -46,12 +45,17 @@ void	*ft_philo(void *philo)
 int	ft_eat(t_philosophe *actuel)
 {
 	unsigned long	time;
+
 	if (actuel->i % 2 == 0)
-		ft_gauchers(actuel);
+	{
+		if(ft_gauchers(actuel))
+			return (1);
+	}
 	else
-		ft_droitiers(actuel);
+		if(ft_droitiers(actuel))
+			return (1);
 	pthread_mutex_lock(&actuel->info->m_printf);
-	if(!ft_verif_philos(actuel))
+	if (!ft_verif_philos(actuel))
 	{
 		pthread_mutex_unlock(&actuel->info->m_printf);
 		return (1);
@@ -77,25 +81,26 @@ void	ft_lache_fourchette(t_philosophe *actuel)
 int	ft_gauchers(t_philosophe *actuel)
 {
 	unsigned long	time;
+
 	pthread_mutex_lock(actuel->fourchette_g);
 	pthread_mutex_lock(&actuel->info->m_printf);
-	if(!ft_verif_philos(actuel))
+	if (!ft_verif_philos(actuel))
 	{
 		pthread_mutex_unlock(&actuel->info->m_printf);
 		return (1);
 	}
 	time = ft_time(actuel);
-	printf("%ld %d has taken a fork\n", time, actuel->i);
+	printf("%ld %d has taken a fork (gauche)\n", time, actuel->i);
 	pthread_mutex_unlock(&actuel->info->m_printf);
 	pthread_mutex_lock(&actuel->fourchette_d);
 	pthread_mutex_lock(&actuel->info->m_printf);
-	if(!ft_verif_philos(actuel))
+	if (!ft_verif_philos(actuel))
 	{
 		pthread_mutex_unlock(&actuel->info->m_printf);
 		return (1);
 	}
 	time = ft_time(actuel);
-	printf("%ld %d has taken a fork\n", time, actuel->i);
+	printf("%ld %d has taken a fork (droite)\n", time, actuel->i);
 	pthread_mutex_unlock(&actuel->info->m_printf);
 	return (0);
 }
@@ -104,25 +109,28 @@ int	ft_gauchers(t_philosophe *actuel)
 int	ft_droitiers(t_philosophe *actuel)
 {
 	unsigned long	time;
+
+	if(actuel->info->nb_de_philos % 2)
+		ft_usleep(actuel->info->tte * 0.2, actuel);
 	pthread_mutex_lock(&actuel->fourchette_d);
 	pthread_mutex_lock(&actuel->info->m_printf);
-	if(!ft_verif_philos(actuel))
+	if (!ft_verif_philos(actuel))
 	{
 		pthread_mutex_unlock(&actuel->info->m_printf);
 		return (1);
 	}
 	time = ft_time(actuel);
-	printf("%ld %d has taken a fork\n", time, actuel->i);
+	printf("%ld %d has taken a fork (droite)\n", time, actuel->i);
 	pthread_mutex_unlock(&actuel->info->m_printf);
 	pthread_mutex_lock(actuel->fourchette_g);
 	pthread_mutex_lock(&actuel->info->m_printf);
-	if(!ft_verif_philos(actuel))
+	if (!ft_verif_philos(actuel))
 	{
 		pthread_mutex_unlock(&actuel->info->m_printf);
 		return (1);
 	}
 	time = ft_time(actuel);
-	printf("%ld %d has taken a fork\n", time, actuel->i);
+	printf("%ld %d has taken a fork (gauche)\n", time, actuel->i);
 	pthread_mutex_unlock(&actuel->info->m_printf);
 	return (0);
 }

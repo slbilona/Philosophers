@@ -6,7 +6,7 @@
 /*   By: ilselbon <ilselbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 12:36:38 by ilona             #+#    #+#             */
-/*   Updated: 2023/07/11 05:54:56 by ilselbon         ###   ########.fr       */
+/*   Updated: 2023/07/11 06:05:13 by ilselbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ typedef struct s_philosophes
 	void					*fourchette_g;
 	pthread_t				philo;
 	struct s_info			*info;
-	long int		time_of_death;
+	long int				time_of_death;
 	pthread_mutex_t			fourchette_d;
 }	t_philosophe;
 
@@ -73,8 +73,8 @@ void			ft_init_tab(t_struct *ma_structure);
 
 int				ft_atoi(const char *nptr);
 void			ft_usleep(int tmp, t_philosophe *philo);
-long int	ft_time(t_philosophe *philo);
-long int	ft_time2(struct timeval debut);
+long int		ft_time(t_philosophe *philo);
+long int		ft_time2(struct timeval debut);
 
 //	Repas
 
@@ -84,7 +84,6 @@ int				ft_droitiers(t_philosophe *actuel);
 void			*ft_philo(void *philo);
 void			ft_lache_fourchette(t_philosophe *actuel);
 
-
 // Routine
 
 int				ft_think(t_philosophe *actuel);
@@ -92,8 +91,8 @@ int				ft_sleep(t_philosophe *actuel);
 
 // Verif Mort
 
-int	ft_mort(t_philosophe actuel);
+int				ft_mort(t_philosophe actuel);
 int				ft_verif_philos(t_philosophe *actuel);
-void check_death(t_struct *ma_structure);
+void			check_death(t_struct *ma_structure);
 
 #endif
