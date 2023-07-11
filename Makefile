@@ -2,10 +2,12 @@ SRCDIR = src
 OBJDIR = points_o
 
 SRCS = main.c \
-	checker.c \
-	creation_thread.c \
-	listes_chainees.c \
 	utils.c \
+	repas.c \
+	checker.c \
+	routine.c \
+	new_utils.c \
+	creation_thread.c \
 
 OBJS = $(addprefix $(OBJDIR)/, $(notdir $(SRCS:.c=.o)))
 

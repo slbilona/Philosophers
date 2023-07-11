@@ -5,30 +5,66 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ilselbon <ilselbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/23 19:55:16 by ilselbon          #+#    #+#             */
-/*   Updated: 2023/06/23 21:20:56 by ilselbon         ###   ########.fr       */
+/*   Created: 2023/07/06 12:34:56 by ilona             #+#    #+#             */
+/*   Updated: 2023/07/11 05:22:31 by ilselbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
+//transforme une string en int
+int	ft_atoi(const char *nptr)
+{
+	int	result;
+	int	i;
+	int	sign;
+
+	sign = 1;
+	i = 0;
+	result = 0;
+	while ((9 <= nptr[i] && nptr[i] <= 13) || nptr[i] == ' ')
+		i++;
+	if (nptr[i] == '-' || nptr[i] == '+')
+	{
+		if (nptr[i] == '-')
+			sign = sign * -1;
+		i++;
+	}
+	while (nptr[i] >= '0' && nptr[i] <= '9')
+	{
+		result = result * 10 + nptr[i] - 48;
+		i++;
+	}
+	return (result * sign);
+}
+
+// Donne le temps en micro-seconde depuis le lancement du programme
+unsigned long	ft_time(t_philosophe *philo)
+{
+	struct timeval	rn;
+
+	gettimeofday(&rn, NULL);
+	return (rn.tv_usec - philo->info->debut.tv_usec);
+}
+
 unsigned long	ft_time2(struct timeval debut)
 {
 	struct timeval	rn;
-	
+
 	gettimeofday(&rn, NULL);
 	return (rn.tv_usec - debut.tv_usec);
 }
 
-void	ft_usleep(int tmp)
+void	ft_usleep(int tmp, t_philosophe *philo)
 {
-	long debut;
-	long actuel;
- 	struct timeval deb;
+	long			debut;
+	long			actuel;
+	struct timeval	deb;
 
- 	gettimeofday(&deb, NULL);
+	gettimeofday(&deb, NULL);
 	debut = ft_time2(deb);
 	actuel = debut;
-	while(tmp > (actuel - debut))
+	//verifier dans le while si aucun philosophe n'est mort
+	while (tmp > (actuel - debut) && ft_verif_philos(philo))
 		actuel = ft_time2(deb);
 }

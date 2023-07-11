@@ -1,33 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   new_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ilselbon <ilselbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/06 12:32:52 by ilona             #+#    #+#             */
-/*   Updated: 2023/07/11 02:29:59 by ilselbon         ###   ########.fr       */
+/*   Created: 2023/07/11 02:33:46 by ilselbon          #+#    #+#             */
+/*   Updated: 2023/07/11 04:37:45 by ilselbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-int	main(int ac, char **av)
-{
-	t_struct	ma_structure;
 
-	gettimeofday(&ma_structure.info.debut, NULL);
-	if (ac > 6)
-		printf("Erreur : trop d'arguments\n");
-	else if (ac < 5)
-		printf("Erreur : pas assez d'arguments\n");
-	else if (ac == 6 || ac == 5)
+
+void check_death(t_struct *ma_structure)
+{
+	int i;
+
+	while(1)
 	{
-		if (!ft_verif_args(ac, av, &ma_structure.info))
+		i = 0;
+		while(i < ma_structure->info.nb_de_philos)
 		{
-			if (ft_creation_table(&ma_structure))
-				printf("erreur\n");
+			if (ft_mort(ma_structure->tab))
+				return ;
+			i++;
 		}
 	}
-	return (0);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philosophers.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
+/*   By: ilselbon <ilselbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/26 22:13:42 by ilselbon          #+#    #+#             */
-/*   Updated: 2023/07/06 12:53:34 by ilona            ###   ########.fr       */
+/*   Created: 2023/07/06 12:36:38 by ilona             #+#    #+#             */
+/*   Updated: 2023/07/11 05:23:26 by ilselbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,61 +22,82 @@
 
 typedef struct s_info
 {
-	int					ac;
-	int	                ttd;
-	int	                tte;
-	int	                tts;
-	int					index;
-	int	                notepme;
-	int	                philosophes;
-	struct timeval		debut;
-	pthread_mutex_t		mort;
+	int						ttd;
+	int						tte;
+	int						tts;
+	int						index;
+	int						i_mort;
+	int						notepme;
+	int						nb_de_philos;
+	struct timeval			debut;
+	pthread_mutex_t			m_printf;
+	pthread_mutex_t			mutex_mort;
+	struct s_philosophes	**actuel_philo;
 }	t_info;
 
-typedef struct s_philosophe
+typedef struct s_philosophes
 {
-	int					vie;
-	int					i;
-	int					sdk;
-	int					nb_de_repas;
-	void				*fourchette_g;
-	pthread_t			philo;
-	pthread_mutex_t		fourchette_d;
-	struct s_philosophe	*next;
+	int						i;
+	int						vie;
+	int						sdk;
+	int						ate;
+	int						nb_de_repas;
+	void					*fourchette_g;
+	pthread_t				philo;
+	struct s_info			*info;
+	unsigned long			time_of_death;
+	pthread_mutex_t			fourchette_d;
 }	t_philosophe;
 
 typedef struct s_struct
 {
-	struct s_info		info;
-	struct s_philosophe	*philosophe;
+	struct s_info			info;
+	struct s_philosophes	*tab;
 }	t_struct;
 
-// main
-
-int				ft_atoi(const char *nptr);
-
-// checker
+// Checkers
 
 int				ft_isdigit(int c);
 int				ft_chiffres(char **av, int j, int i);
 int				ft_verif_args(int ac, char **av, t_info *ma_structure);
 
-// creation_thread
+// Creation thread
 
+int				ft_join(t_struct *ma_structure);
 int				ft_creation_table(t_struct *ma_structure);
-int				ft_thread_philo(t_struct *ma_structure);
-int				ft_initialisation(t_philosophe *actuel);
-void			*ft_philo(void *ma_structure);
-int				test_lancement_thread(t_struct *ma_structure);
+int				ft_lancement_thread(t_struct *ma_structure);
+void			ft_init_tab(t_struct *ma_structure);
 
-// listes chainees
+// Listes Chainees
 
-int				ft_vide_liste(t_philosophe **pile);
-t_philosophe	*ft_lstnew(int content);
+t_philosophe	*ft_lstnew(int i);
 t_philosophe	*ft_lstadd_back(t_philosophe **lst, t_philosophe *new);
 
-// utils
+// Utils
 
-void ft_usleep(int tmp);
+int				ft_atoi(const char *nptr);
+void	ft_usleep(int tmp, t_philosophe *philo);
+unsigned long	ft_time(t_philosophe *philo);
+unsigned long	ft_time2(struct timeval debut);
+
+//	Repas
+
+int				ft_eat(t_philosophe *actuel);
+int				ft_gauchers(t_philosophe *actuel);
+int				ft_droitiers(t_philosophe *actuel);
+void			*ft_philo(void *philo);
+void			ft_lache_fourchette(t_philosophe *actuel);
+
+
+// Routine
+
+int				ft_verif_philos(t_philosophe *actuel);
+int				ft_think(t_philosophe *actuel);
+int				ft_sleep(t_philosophe *actuel);
+int	ft_mort(t_philosophe *actuel);
+
+// New Utils
+
+void check_death(t_struct *ma_structure);
 
 #endif
