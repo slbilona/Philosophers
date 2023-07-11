@@ -6,7 +6,7 @@
 /*   By: ilselbon <ilselbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 12:36:38 by ilona             #+#    #+#             */
-/*   Updated: 2023/07/11 05:23:26 by ilselbon         ###   ########.fr       */
+/*   Updated: 2023/07/11 05:54:56 by ilselbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ typedef struct s_philosophes
 	void					*fourchette_g;
 	pthread_t				philo;
 	struct s_info			*info;
-	unsigned long			time_of_death;
+	long int		time_of_death;
 	pthread_mutex_t			fourchette_d;
 }	t_philosophe;
 
@@ -60,6 +60,7 @@ typedef struct s_struct
 int				ft_isdigit(int c);
 int				ft_chiffres(char **av, int j, int i);
 int				ft_verif_args(int ac, char **av, t_info *ma_structure);
+void			ft_init_info(char **av, t_info *info);
 
 // Creation thread
 
@@ -68,17 +69,12 @@ int				ft_creation_table(t_struct *ma_structure);
 int				ft_lancement_thread(t_struct *ma_structure);
 void			ft_init_tab(t_struct *ma_structure);
 
-// Listes Chainees
-
-t_philosophe	*ft_lstnew(int i);
-t_philosophe	*ft_lstadd_back(t_philosophe **lst, t_philosophe *new);
-
 // Utils
 
 int				ft_atoi(const char *nptr);
-void	ft_usleep(int tmp, t_philosophe *philo);
-unsigned long	ft_time(t_philosophe *philo);
-unsigned long	ft_time2(struct timeval debut);
+void			ft_usleep(int tmp, t_philosophe *philo);
+long int	ft_time(t_philosophe *philo);
+long int	ft_time2(struct timeval debut);
 
 //	Repas
 
@@ -91,13 +87,13 @@ void			ft_lache_fourchette(t_philosophe *actuel);
 
 // Routine
 
-int				ft_verif_philos(t_philosophe *actuel);
 int				ft_think(t_philosophe *actuel);
 int				ft_sleep(t_philosophe *actuel);
-int	ft_mort(t_philosophe *actuel);
 
-// New Utils
+// Verif Mort
 
+int	ft_mort(t_philosophe actuel);
+int				ft_verif_philos(t_philosophe *actuel);
 void check_death(t_struct *ma_structure);
 
 #endif

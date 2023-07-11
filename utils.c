@@ -6,7 +6,7 @@
 /*   By: ilselbon <ilselbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 12:34:56 by ilona             #+#    #+#             */
-/*   Updated: 2023/07/11 05:22:31 by ilselbon         ###   ########.fr       */
+/*   Updated: 2023/07/11 05:55:26 by ilselbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int	ft_atoi(const char *nptr)
 }
 
 // Donne le temps en micro-seconde depuis le lancement du programme
-unsigned long	ft_time(t_philosophe *philo)
+long int	ft_time(t_philosophe *philo)
 {
 	struct timeval	rn;
 
@@ -47,7 +47,7 @@ unsigned long	ft_time(t_philosophe *philo)
 	return (rn.tv_usec - philo->info->debut.tv_usec);
 }
 
-unsigned long	ft_time2(struct timeval debut)
+long int	ft_time2(struct timeval debut)
 {
 	struct timeval	rn;
 

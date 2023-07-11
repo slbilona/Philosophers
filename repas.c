@@ -6,7 +6,7 @@
 /*   By: ilselbon <ilselbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 12:36:59 by ilona             #+#    #+#             */
-/*   Updated: 2023/07/11 05:24:07 by ilselbon         ###   ########.fr       */
+/*   Updated: 2023/07/11 05:41:23 by ilselbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,14 @@ void	*ft_philo(void *philo)
 				return (NULL);
 		}
 		if (tab->sdk == 2 && ft_verif_philos(tab))
-			ft_sleep(tab);
+		{
+			if(ft_sleep(tab))
+				return (NULL);
+		}
 		if (tab->sdk == 1 && ft_verif_philos(tab))
 		{
 			if(ft_think(tab))
-			return (NULL);
+				return (NULL);
 		}
 	}
 	return (NULL);

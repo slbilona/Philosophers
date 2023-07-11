@@ -6,7 +6,7 @@
 /*   By: ilselbon <ilselbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 12:32:25 by ilona             #+#    #+#             */
-/*   Updated: 2023/07/11 04:34:51 by ilselbon         ###   ########.fr       */
+/*   Updated: 2023/07/11 05:51:09 by ilselbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	ft_init_tab(t_struct *ma_structure)
 		ma_structure->tab[i].philo = i;
 		ma_structure->tab[i].ate = 0;
 		ma_structure->tab[i].info = &ma_structure->info;
-		ma_structure->tab[i].time_of_death = 0;
+		ma_structure->tab[i].time_of_death = ma_structure->info.ttd;
 		pthread_mutex_init(&ma_structure->tab->fourchette_d, NULL);
 		i++;
 	}
