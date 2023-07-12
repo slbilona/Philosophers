@@ -6,7 +6,7 @@
 /*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 12:36:59 by ilona             #+#    #+#             */
-/*   Updated: 2023/07/12 11:07:35 by ilona            ###   ########.fr       */
+/*   Updated: 2023/07/12 13:54:27 by ilona            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,21 +41,36 @@ void	*ft_philo(void *philo)
 	return (NULL);
 }
 
+void	ft_compte_repas(t_philosophe *actuel)
+{
+	if(actuel->info->notepme != -1)
+	{
+		pthread_mutex_lock(&actuel->mutex);
+		actuel->nb_de_repas++;
+		if(actuel->nb_de_repas == actuel->info->notepme)
+		{
+			pthread_mutex_lock(&actuel->mutex);
+			actuel->ate = 1;
+			pthread_mutex_unlock(&actuel->mutex);
+		}
+	}
+}
+
 // Les philosophes prennent leur fourchettes et mangent
 int	ft_eat(t_philosophe *actuel)
 {
 	if (actuel->i % 2 == 0)
 	{
-		if(ft_gauchers(actuel))
+		if (ft_gauchers(actuel))
 			return (1);
 	}
 	else
-		if(ft_droitiers(actuel))
+		if (ft_droitiers(actuel))
 			return (1);
-	if(ft_print(actuel, "is eating", 1))
+	if (ft_print(actuel, "is eating", 1))
 		return (1);
 	ft_usleep(actuel->info->tte, actuel);
-	actuel->nb_de_repas++;
+	ft_compte_repas(actuel);
 	ft_lache_fourchette(actuel);
 	return (0);
 }
@@ -82,7 +97,7 @@ int	ft_gauchers(t_philosophe *actuel)
 // Le philosophe commence en prenant sa fourchette droite
 int	ft_droitiers(t_philosophe *actuel)
 {
-	if(actuel->info->nb_de_philos % 2)
+	if (actuel->info->nb_de_philos % 2)
 		ft_usleep(actuel->info->tte * 0.2, actuel);
 	pthread_mutex_lock(&actuel->fourchette_d);
 	if (ft_print(actuel, "has taken a fork (droite)", 0))

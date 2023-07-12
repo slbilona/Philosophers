@@ -6,7 +6,7 @@
 /*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 12:36:38 by ilona             #+#    #+#             */
-/*   Updated: 2023/07/12 11:04:20 by ilona            ###   ########.fr       */
+/*   Updated: 2023/07/12 13:46:53 by ilona            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,13 @@ typedef struct s_info
 	int						ttd;
 	int						tte;
 	int						tts;
+	int						ate;
 	int						index;
 	int						i_mort;
 	int						notepme;
 	int						nb_de_philos;
 	struct timeval			debut;
+	pthread_mutex_t			m_ate;
 	pthread_mutex_t			m_printf;
 	pthread_mutex_t			mutex_mort;
 	struct s_philosophes	**actuel_philo;

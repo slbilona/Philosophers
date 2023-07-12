@@ -6,7 +6,7 @@
 /*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 06:02:03 by ilselbon          #+#    #+#             */
-/*   Updated: 2023/07/12 11:09:05 by ilona            ###   ########.fr       */
+/*   Updated: 2023/07/12 13:06:22 by ilona            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	ft_sleep(t_philosophe *actuel)
 {
-	if(ft_print(actuel, "is sleeping", 0))
+	if (ft_print(actuel, "is sleeping", 0))
 		return (1);
 	ft_usleep(actuel->info->tts, actuel);
 	actuel->sdk = 1;
