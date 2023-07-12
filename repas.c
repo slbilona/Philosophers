@@ -6,7 +6,7 @@
 /*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 12:36:59 by ilona             #+#    #+#             */
-/*   Updated: 2023/07/12 13:54:27 by ilona            ###   ########.fr       */
+/*   Updated: 2023/07/12 17:54:55 by ilona            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,9 @@ void	*ft_philo(void *philo)
 		}
 		if (tab->sdk == 1 && ft_verif_philos(tab))
 		{
-			if (ft_think(tab))
+			if (ft_print(tab, "is thinking		🤔", 0))
 				return (NULL);
+			tab->sdk = 3;
 		}
 	}
 	return (NULL);
@@ -43,16 +44,13 @@ void	*ft_philo(void *philo)
 
 void	ft_compte_repas(t_philosophe *actuel)
 {
-	if(actuel->info->notepme != -1)
+	if (actuel->info->notepme != -1)
 	{
 		pthread_mutex_lock(&actuel->mutex);
 		actuel->nb_de_repas++;
-		if(actuel->nb_de_repas == actuel->info->notepme)
-		{
-			pthread_mutex_lock(&actuel->mutex);
+		if (actuel->nb_de_repas == actuel->info->notepme)
 			actuel->ate = 1;
-			pthread_mutex_unlock(&actuel->mutex);
-		}
+		pthread_mutex_unlock(&actuel->mutex);
 	}
 }
 
@@ -67,7 +65,7 @@ int	ft_eat(t_philosophe *actuel)
 	else
 		if (ft_droitiers(actuel))
 			return (1);
-	if (ft_print(actuel, "is eating", 1))
+	if (ft_print(actuel, "is eating		🍝", 1))
 		return (1);
 	ft_usleep(actuel->info->tte, actuel);
 	ft_compte_repas(actuel);
@@ -86,10 +84,10 @@ void	ft_lache_fourchette(t_philosophe *actuel)
 int	ft_gauchers(t_philosophe *actuel)
 {
 	pthread_mutex_lock(actuel->fourchette_g);
-	if (ft_print(actuel, "has taken a fork (gauche)", 0))
+	if (ft_print(actuel, "has taken a fork	🍴", 0))
 		return (1);
 	pthread_mutex_lock(&actuel->fourchette_d);
-	if (ft_print(actuel, "has taken a fork (droite)", 0))
+	if (ft_print(actuel, "has taken a fork	🍴", 0))
 		return (1);
 	return (0);
 }
@@ -100,10 +98,10 @@ int	ft_droitiers(t_philosophe *actuel)
 	if (actuel->info->nb_de_philos % 2)
 		ft_usleep(actuel->info->tte * 0.2, actuel);
 	pthread_mutex_lock(&actuel->fourchette_d);
-	if (ft_print(actuel, "has taken a fork (droite)", 0))
+	if (ft_print(actuel, "has taken a fork	🍴", 0))
 		return (1);
 	pthread_mutex_lock(actuel->fourchette_g);
-	if (ft_print(actuel, "has taken a fork (gauche)", 0))
+	if (ft_print(actuel, "has taken a fork	🍴", 0))
 		return (1);
 	return (0);
 }

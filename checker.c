@@ -6,7 +6,7 @@
 /*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 22:10:32 by ilselbon          #+#    #+#             */
-/*   Updated: 2023/07/12 13:48:47 by ilona            ###   ########.fr       */
+/*   Updated: 2023/07/12 17:45:46 by ilona            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,6 @@ int	ft_chiffres(char **av, int j, int i)
 // Initialise la structure info
 void	ft_init_info(char **av, t_info *info)
 {
-	gettimeofday(&info->debut, NULL);
 	info->nb_de_philos = ft_atoi(av[1]);
 	info->ttd = ft_atoi(av[2]);
 	info->tte = ft_atoi(av[3]);
@@ -62,6 +61,7 @@ void	ft_init_info(char **av, t_info *info)
 	pthread_mutex_init(&info->m_ate, NULL);
 	pthread_mutex_init(&info->m_printf, NULL);
 	pthread_mutex_init(&info->mutex_mort, NULL);
+	pthread_mutex_init(&info->mutex, NULL);
 }
 
 // Vérifie si les arguments entrés sont valides.

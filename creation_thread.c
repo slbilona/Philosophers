@@ -6,7 +6,7 @@
 /*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 12:32:25 by ilona             #+#    #+#             */
-/*   Updated: 2023/07/12 11:47:20 by ilona            ###   ########.fr       */
+/*   Updated: 2023/07/12 17:37:15 by ilona            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,9 @@ void	ft_init_tab(t_struct *ma_structure)
 	i = 0;
 	while (i < ma_structure->info.nb_de_philos)
 	{
-		pthread_mutex_init(&ma_structure->tab[i].fourchette_d, NULL);
+		pthread_mutex_init(&ma_structure->tab[i].m_tod, NULL);
 		pthread_mutex_init(&ma_structure->tab[i].mutex, NULL);
+		pthread_mutex_init(&ma_structure->tab[i].fourchette_d, NULL);
 		ma_structure->tab[i].i = i + 1;
 		ma_structure->tab[i].vie = 0;
 		ma_structure->tab[i].sdk = 3;

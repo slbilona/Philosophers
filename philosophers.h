@@ -6,7 +6,7 @@
 /*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 12:36:38 by ilona             #+#    #+#             */
-/*   Updated: 2023/07/12 13:46:53 by ilona            ###   ########.fr       */
+/*   Updated: 2023/07/12 17:40:23 by ilona            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ typedef struct s_info
 	pthread_mutex_t			m_ate;
 	pthread_mutex_t			m_printf;
 	pthread_mutex_t			mutex_mort;
+	pthread_mutex_t			mutex;
 	struct s_philosophes	**actuel_philo;
 }	t_info;
 
@@ -48,6 +49,7 @@ typedef struct s_philosophes
 	long int				time_of_death;
 	pthread_t				philo;
 	struct s_info			*info;
+	pthread_mutex_t			m_tod;
 	pthread_mutex_t			mutex;
 	pthread_mutex_t			fourchette_d;
 }	t_philosophe;
@@ -91,7 +93,6 @@ void			ft_lache_fourchette(t_philosophe *actuel);
 
 // Routine
 
-int				ft_think(t_philosophe *actuel);
 int				ft_sleep(t_philosophe *actuel);
 
 // Verif Mort

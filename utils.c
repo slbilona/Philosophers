@@ -6,7 +6,7 @@
 /*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 12:34:56 by ilona             #+#    #+#             */
-/*   Updated: 2023/07/12 13:08:12 by ilona            ###   ########.fr       */
+/*   Updated: 2023/07/12 18:00:00 by ilona            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,34 +38,39 @@ int	ft_atoi(const char *nptr)
 	return (result * sign);
 }
 
-// Donne le temps en micro-seconde depuis le lancement du programme
-long int	ft_time(t_philosophe *philo)
+// Donne le temps en millisecondes depuis le lancement du programme
+long int	t_time(t_philosophe *philo)
 {
 	struct timeval	rn;
+	long int		diff_ms;
 
 	gettimeofday(&rn, NULL);
-	return ((rn.tv_usec - philo->info->debut.tv_usec) / 1000);
+	diff_ms = (rn.tv_sec - philo->info->debut.tv_sec) * 1000;
+	diff_ms += (rn.tv_usec - philo->info->debut.tv_usec) / 1000;
+	return (diff_ms);
 }
 
-long int	ft_time2(struct timeval debut)
+long int	ft_time_diff_ms(struct timeval debut, struct timeval actuel)
 {
-	struct timeval	rn;
+	long int	diff_ms;
 
-	gettimeofday(&rn, NULL);
-	return ((rn.tv_usec - debut.tv_usec) / 1000);
+	diff_ms = (actuel.tv_sec - debut.tv_sec) * 1000;
+	diff_ms += (actuel.tv_usec - debut.tv_usec) / 1000;
+	return (diff_ms);
 }
 
 void	ft_usleep(int tmp, t_philosophe *philo)
 {
-	long			debut;
-	long			actuel;
-	struct timeval	deb;
+	struct timeval	debut;
+	struct timeval	actuel;
 
-	gettimeofday(&deb, NULL);
-	debut = ft_time2(deb);
-	actuel = debut;
-	while (tmp >= (actuel - debut) && ft_verif_philos(philo))
-		actuel = ft_time2(deb);
+	gettimeofday(&debut, NULL);
+	gettimeofday(&actuel, NULL);
+	while (tmp > ft_time_diff_ms(debut, actuel) && ft_verif_philos(philo))
+	{
+		usleep(500);
+		gettimeofday(&actuel, NULL);
+	}
 }
 
 void	ft_destroy(t_struct *m_s)
@@ -73,6 +78,7 @@ void	ft_destroy(t_struct *m_s)
 	int	i;
 
 	i = 0;
+	pthread_mutex_destroy(&m_s->info.m_ate);
 	pthread_mutex_destroy(&m_s->info.m_printf);
 	pthread_mutex_destroy(&m_s->info.mutex_mort);
 	if (m_s->tab)
@@ -97,11 +103,11 @@ int	ft_print(t_philosophe *actuel, char *str, int eat_or_not)
 	}
 	if (eat_or_not == 1)
 	{
-		pthread_mutex_lock(&actuel->mutex);
+		pthread_mutex_lock(&actuel->m_tod);
 		actuel->time_of_death = ft_time(actuel) + actuel->info->ttd;
-		pthread_mutex_unlock(&actuel->mutex);
+		pthread_mutex_unlock(&actuel->m_tod);
 	}
-	printf("%ld %d %s\n", ft_time(actuel), actuel->i, str);
+	printf(" %ld	%d	%s\n", labs(ft_time(actuel)), actuel->i, str);
 	pthread_mutex_unlock(&actuel->info->m_printf);
 	return (0);
 }
