@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philosophers.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ilselbon <ilselbon@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 12:36:38 by ilona             #+#    #+#             */
-/*   Updated: 2023/07/11 08:09:19 by ilselbon         ###   ########.fr       */
+/*   Updated: 2023/07/12 11:04:20 by ilona            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,8 @@ void			ft_init_tab(t_struct *ma_structure);
 // Utils
 
 int				ft_atoi(const char *nptr);
+int				ft_print(t_philosophe *actuel, char *str, int eat_or_not);
+void			ft_destroy(t_struct *m_s);
 void			ft_usleep(int tmp, t_philosophe *philo);
 long int		ft_time(t_philosophe *philo);
 long int		ft_time2(struct timeval debut);

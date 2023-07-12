@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ilselbon <ilselbon@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 12:34:56 by ilona             #+#    #+#             */
-/*   Updated: 2023/07/11 08:40:02 by ilselbon         ###   ########.fr       */
+/*   Updated: 2023/07/12 11:05:44 by ilona            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,11 +64,44 @@ void	ft_usleep(int tmp, t_philosophe *philo)
 	gettimeofday(&deb, NULL);
 	debut = ft_time2(deb);
 	actuel = debut;
-	while (tmp > (actuel - debut) && ft_verif_philos(philo))
+	while (tmp >= (actuel - debut) && ft_verif_philos(philo))
 		actuel = ft_time2(deb);
 }
 
 void	ft_destroy(t_struct *m_s)
 {
-	
+	int i;
+
+	i = 0;
+	pthread_mutex_destroy(&m_s->info.m_printf);
+	pthread_mutex_destroy(&m_s->info.mutex_mort);
+	if(m_s->tab)
+	{
+		while(i < m_s->info.nb_de_philos)
+		{
+			pthread_mutex_destroy(&m_s->tab[i].fourchette_d);
+			pthread_mutex_destroy(&m_s->tab[i].mutex);
+			i++;
+		}
+		free(m_s->tab);
+	}
+}
+
+int	ft_print(t_philosophe *actuel, char *str, int eat_or_not)
+{
+	pthread_mutex_lock(&actuel->info->m_printf);
+	if (!ft_verif_philos(actuel))
+	{
+		pthread_mutex_unlock(&actuel->info->m_printf);
+		return (1);
+	}
+	if(eat_or_not == 1)
+	{
+		pthread_mutex_lock(&actuel->mutex);
+		actuel->time_of_death = ft_time(actuel) + actuel->info->ttd;
+		pthread_mutex_unlock(&actuel->mutex);
+	}
+	printf("%ld %d %s\n", ft_time(actuel), actuel->i, str);
+	pthread_mutex_unlock(&actuel->info->m_printf);
+	return (0);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   verif_mort.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ilselbon <ilselbon@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 05:32:50 by ilselbon          #+#    #+#             */
-/*   Updated: 2023/07/11 08:18:49 by ilselbon         ###   ########.fr       */
+/*   Updated: 2023/07/12 11:14:49 by ilona            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,21 +14,21 @@
 
 int	ft_mort(t_philosophe actuel)
 {
-	unsigned long	time;
 	int				stop;
+	long int		tod;
 
 	stop = 0;
-	//pthread_mutex_lock(&actuel.mutex);
-	if (actuel.time_of_death < ft_time(&actuel))
+	pthread_mutex_lock(&actuel.mutex);
+	tod = actuel.time_of_death;
+	pthread_mutex_unlock(&actuel.mutex);
+	if (tod <= ft_time(&actuel))
 	{
-	//	pthread_mutex_unlock(&actuel.mutex);
 		pthread_mutex_lock(&actuel.info->mutex_mort);
 		actuel.info->i_mort = 0;
 		stop = 1;
 		pthread_mutex_unlock(&actuel.info->mutex_mort);
 		pthread_mutex_lock(&actuel.info->m_printf);
-		time = ft_time(&actuel);
-		printf("%ld %d died\n", time, actuel.i);
+		printf("%ld %d died\n", ft_time(&actuel), actuel.i);
 		pthread_mutex_unlock(&actuel.info->m_printf);
 	}
 	return (stop);
