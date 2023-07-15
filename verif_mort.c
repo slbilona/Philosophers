@@ -6,30 +6,32 @@
 /*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 05:32:50 by ilselbon          #+#    #+#             */
-/*   Updated: 2023/07/15 12:47:23 by ilona            ###   ########.fr       */
+/*   Updated: 2023/07/15 17:50:39 by ilona            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-int	ft_mort(t_philosophe actuel)
+int	ft_mort(t_philosophe *actuel)
 {
 	int				stop;
 	long int		tod;
 
 	stop = 0;
-	pthread_mutex_lock(&actuel.m_tod);
-	tod = actuel.time_of_death;
-	pthread_mutex_unlock(&actuel.m_tod);
-	if (tod <= ft_time(&actuel))
+	pthread_mutex_lock(&actuel->m_tod);
+	tod = actuel->time_of_death;
+	pthread_mutex_unlock(&actuel->m_tod);
+	if (tod <= ft_time(actuel))
 	{
-		pthread_mutex_lock(&actuel.info->mutex_mort);
-		actuel.info->i_mort = 0;
+		pthread_mutex_lock(&actuel->info->mutex_mort);
+		actuel->info->i_mort = 0;
+		pthread_mutex_unlock(&actuel->info->mutex_mort);
+		//pthread_mutex_lock(&actuel->info->m_stop);
 		stop = 1;
-		pthread_mutex_unlock(&actuel.info->mutex_mort);
-		pthread_mutex_lock(&actuel.info->m_printf);
-		printf(" %ld	%d	died	💀\n", ft_time(&actuel), actuel.i);
-		pthread_mutex_unlock(&actuel.info->m_printf);
+		//pthread_mutex_unlock(&actuel->info->m_stop);
+		pthread_mutex_lock(&actuel->info->m_printf);
+		printf(" %ld	%d	died			💀\n", ft_time(actuel), actuel->i);
+		pthread_mutex_unlock(&actuel->info->m_printf);
 	}
 	return (stop);
 }
@@ -42,46 +44,26 @@ int	ft_verif_philos(t_philosophe *actuel)
 	pthread_mutex_lock(&actuel->info->mutex_mort);
 	ret = actuel->info->i_mort;
 	pthread_mutex_unlock(&actuel->info->mutex_mort);
-	pthread_mutex_lock(&actuel->info->m_ate);
-	if(actuel->info->ate == 1)
-	{
-		pthread_mutex_unlock(&actuel->info->m_ate);
-		//printf("fini\n");
-		return (0);
-	}
-	pthread_mutex_unlock(&actuel->info->m_ate);
 	return (ret);
 }
 
 void	check_death(t_struct *ma_structure)
 {
 	int	i;
-	int	j;
 
 	while (1)
 	{
 		i = 0;
-		j = 0;
 		while (i < ma_structure->info.nb_de_philos)
 		{
-			pthread_mutex_lock(&ma_structure->info.mutex);
-			if (ft_mort(ma_structure->tab[i]))
+			pthread_mutex_lock(&ma_structure->info.m_stop);
+			if (ft_mort(&ma_structure->tab[i]))
 			{
-				pthread_mutex_unlock(&ma_structure->info.mutex);
+				pthread_mutex_unlock(&ma_structure->info.m_stop);
 				return ;
 			}
-			pthread_mutex_unlock(&ma_structure->info.mutex);
-			pthread_mutex_lock(&ma_structure->tab[i].mutex);
-			if (ma_structure->tab[i].ate == 1)
-				j++;
-			pthread_mutex_unlock(&ma_structure->tab[i].mutex);
+			pthread_mutex_unlock(&ma_structure->info.m_stop);
 			i++;
-		}
-		if (j == (ma_structure->info.nb_de_philos))
-		{
-			pthread_mutex_lock(&ma_structure->info.m_ate);
-			ma_structure->info.ate = 1;
-			pthread_mutex_unlock(&ma_structure->info.m_ate);
 		}
 	}
 }

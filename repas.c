@@ -6,7 +6,7 @@
 /*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 12:36:59 by ilona             #+#    #+#             */
-/*   Updated: 2023/07/15 12:16:40 by ilona            ###   ########.fr       */
+/*   Updated: 2023/07/15 15:59:49 by ilona            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,6 @@ int	ft_eat(t_philosophe *actuel)
 	if (ft_print(actuel, "is eating		🍝", 1))
 		return (1);
 	ft_usleep(actuel->info->tte, actuel);
-	ft_compte_repas(actuel);
 	ft_lache_fourchette(actuel);
 	return (0);
 }

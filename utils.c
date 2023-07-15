@@ -6,7 +6,7 @@
 /*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 12:34:56 by ilona             #+#    #+#             */
-/*   Updated: 2023/07/15 12:40:14 by ilona            ###   ########.fr       */
+/*   Updated: 2023/07/15 17:59:06 by ilona            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,29 @@ void	ft_usleep(int tmp, t_philosophe *philo)
 	}
 }
 
+// void	ft_usleep(int tmp, t_philosophe *philo)
+// {
+// 	long			debut;
+// 	long			actuel;
+// 	struct timeval	deb;
+
+// 	gettimeofday(&deb, NULL);
+// 	debut = ft_time2(deb);
+// 	actuel = debut;
+// 	while (tmp > (actuel - debut) && ft_verif_philos(philo))
+// 	{
+// 		usleep(100);
+// 		actuel = ft_time2(deb);
+// 	}
+// }
+// long int	ft_time2(struct timeval debut)
+// {
+// 	struct timeval	rn;
+
+// 	gettimeofday(&rn, NULL);
+// 	return ((rn.tv_usec - debut.tv_usec) / 1000);
+// }
+
 void	ft_destroy(t_struct *m_s)
 {
 	int	i;
@@ -107,7 +130,7 @@ int	ft_print(t_philosophe *actuel, char *str, int eat_or_not)
 		actuel->time_of_death = ft_time(actuel) + actuel->info->ttd;
 		pthread_mutex_unlock(&actuel->m_tod);
 	}
-	printf(" %ld	%d	%s	ate : %d\n", labs(ft_time(actuel)), actuel->i, str, actuel->info->ate);
+	printf(" %ld	%d	%s\n", labs(ft_time(actuel)), actuel->i, str);
 	pthread_mutex_unlock(&actuel->info->m_printf);
 	return (0);
 }

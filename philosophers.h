@@ -6,7 +6,7 @@
 /*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 12:36:38 by ilona             #+#    #+#             */
-/*   Updated: 2023/07/12 17:40:23 by ilona            ###   ########.fr       */
+/*   Updated: 2023/07/15 17:23:17 by ilona            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ typedef struct s_info
 	pthread_mutex_t			m_ate;
 	pthread_mutex_t			m_printf;
 	pthread_mutex_t			mutex_mort;
-	pthread_mutex_t			mutex;
+	pthread_mutex_t			m_stop;
 	struct s_philosophes	**actuel_philo;
 }	t_info;
 
@@ -97,7 +97,7 @@ int				ft_sleep(t_philosophe *actuel);
 
 // Verif Mort
 
-int				ft_mort(t_philosophe actuel);
+int				ft_mort(t_philosophe *actuel);
 int				ft_verif_philos(t_philosophe *actuel);
 void			check_death(t_struct *ma_structure);
 
