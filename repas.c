@@ -6,7 +6,7 @@
 /*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 12:36:59 by ilona             #+#    #+#             */
-/*   Updated: 2023/07/15 15:59:49 by ilona            ###   ########.fr       */
+/*   Updated: 2023/07/15 18:21:14 by ilona            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,30 +80,4 @@ void	ft_lache_fourchette(t_philosophe *actuel)
 	pthread_mutex_unlock(actuel->fourchette_g);
 	pthread_mutex_unlock(&actuel->fourchette_d);
 	actuel->sdk = 2;
-}
-
-// Le philosophe commence en prenant sa fourchette gauche
-int	ft_gauchers(t_philosophe *actuel)
-{
-	pthread_mutex_lock(actuel->fourchette_g);
-	if (ft_print(actuel, "has taken a fork	🍴", 0))
-		return (1);
-	pthread_mutex_lock(&actuel->fourchette_d);
-	if (ft_print(actuel, "has taken a fork	🍴", 0))
-		return (1);
-	return (0);
-}
-
-// Le philosophe commence en prenant sa fourchette droite
-int	ft_droitiers(t_philosophe *actuel)
-{
-	if (actuel->info->nb_de_philos % 2)
-		ft_usleep(actuel->info->tte * 0.2, actuel);
-	pthread_mutex_lock(&actuel->fourchette_d);
-	if (ft_print(actuel, "has taken a fork	🍴", 0))
-		return (1);
-	pthread_mutex_lock(actuel->fourchette_g);
-	if (ft_print(actuel, "has taken a fork	🍴", 0))
-		return (1);
-	return (0);
 }

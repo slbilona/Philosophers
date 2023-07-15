@@ -6,7 +6,7 @@
 /*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 12:32:25 by ilona             #+#    #+#             */
-/*   Updated: 2023/07/15 18:12:33 by ilona            ###   ########.fr       */
+/*   Updated: 2023/07/15 18:19:54 by ilona            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,7 @@ int	ft_lancement_thread(t_struct *m_s)
 		i++;
 	}
 	check_death(m_s);
+	ft_destroy(m_s);
 	return (0);
 }
 

@@ -6,7 +6,7 @@
 /*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 12:36:38 by ilona             #+#    #+#             */
-/*   Updated: 2023/07/15 17:23:17 by ilona            ###   ########.fr       */
+/*   Updated: 2023/07/15 18:21:30 by ilona            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,14 +86,14 @@ long int		ft_time2(struct timeval debut);
 //	Repas
 
 int				ft_eat(t_philosophe *actuel);
-int				ft_gauchers(t_philosophe *actuel);
-int				ft_droitiers(t_philosophe *actuel);
 void			*ft_philo(void *philo);
 void			ft_lache_fourchette(t_philosophe *actuel);
 
 // Routine
 
 int				ft_sleep(t_philosophe *actuel);
+int				ft_gauchers(t_philosophe *actuel);
+int				ft_droitiers(t_philosophe *actuel);
 
 // Verif Mort
 
