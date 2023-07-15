@@ -6,7 +6,7 @@
 /*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 12:36:59 by ilona             #+#    #+#             */
-/*   Updated: 2023/07/12 17:54:55 by ilona            ###   ########.fr       */
+/*   Updated: 2023/07/15 12:16:40 by ilona            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,10 @@ void	ft_compte_repas(t_philosophe *actuel)
 		pthread_mutex_lock(&actuel->mutex);
 		actuel->nb_de_repas++;
 		if (actuel->nb_de_repas == actuel->info->notepme)
+		{
+			printf("%d ate.\n", actuel->i);
 			actuel->ate = 1;
+		}
 		pthread_mutex_unlock(&actuel->mutex);
 	}
 }

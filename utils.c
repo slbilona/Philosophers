@@ -6,7 +6,7 @@
 /*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 12:34:56 by ilona             #+#    #+#             */
-/*   Updated: 2023/07/12 18:00:00 by ilona            ###   ########.fr       */
+/*   Updated: 2023/07/15 12:40:14 by ilona            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int	ft_atoi(const char *nptr)
 }
 
 // Donne le temps en millisecondes depuis le lancement du programme
-long int	t_time(t_philosophe *philo)
+long int	ft_time(t_philosophe *philo)
 {
 	struct timeval	rn;
 	long int		diff_ms;
@@ -107,7 +107,7 @@ int	ft_print(t_philosophe *actuel, char *str, int eat_or_not)
 		actuel->time_of_death = ft_time(actuel) + actuel->info->ttd;
 		pthread_mutex_unlock(&actuel->m_tod);
 	}
-	printf(" %ld	%d	%s\n", labs(ft_time(actuel)), actuel->i, str);
+	printf(" %ld	%d	%s	ate : %d\n", labs(ft_time(actuel)), actuel->i, str, actuel->info->ate);
 	pthread_mutex_unlock(&actuel->info->m_printf);
 	return (0);
 }

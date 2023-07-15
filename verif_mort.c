@@ -6,7 +6,7 @@
 /*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 05:32:50 by ilselbon          #+#    #+#             */
-/*   Updated: 2023/07/12 17:52:02 by ilona            ###   ########.fr       */
+/*   Updated: 2023/07/15 12:47:23 by ilona            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,13 +42,14 @@ int	ft_verif_philos(t_philosophe *actuel)
 	pthread_mutex_lock(&actuel->info->mutex_mort);
 	ret = actuel->info->i_mort;
 	pthread_mutex_unlock(&actuel->info->mutex_mort);
-	// pthread_mutex_lock(&actuel->info->m_ate);
-	// if(actuel->info->ate == 1)
-	// {
-	// 	pthread_mutex_unlock(&actuel->info->m_ate);
-	// 	return (0);
-	// }
-	// pthread_mutex_unlock(&actuel->info->m_ate);
+	pthread_mutex_lock(&actuel->info->m_ate);
+	if(actuel->info->ate == 1)
+	{
+		pthread_mutex_unlock(&actuel->info->m_ate);
+		//printf("fini\n");
+		return (0);
+	}
+	pthread_mutex_unlock(&actuel->info->m_ate);
 	return (ret);
 }
 
@@ -70,11 +71,13 @@ void	check_death(t_struct *ma_structure)
 				return ;
 			}
 			pthread_mutex_unlock(&ma_structure->info.mutex);
+			pthread_mutex_lock(&ma_structure->tab[i].mutex);
 			if (ma_structure->tab[i].ate == 1)
 				j++;
+			pthread_mutex_unlock(&ma_structure->tab[i].mutex);
 			i++;
 		}
-		if (j == (ma_structure->info.nb_de_philos - 1))
+		if (j == (ma_structure->info.nb_de_philos))
 		{
 			pthread_mutex_lock(&ma_structure->info.m_ate);
 			ma_structure->info.ate = 1;

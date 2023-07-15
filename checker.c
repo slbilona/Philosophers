@@ -6,7 +6,7 @@
 /*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 22:10:32 by ilselbon          #+#    #+#             */
-/*   Updated: 2023/07/12 17:45:46 by ilona            ###   ########.fr       */
+/*   Updated: 2023/07/15 12:07:42 by ilona            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ void	ft_init_info(char **av, t_info *info)
 	info->tte = ft_atoi(av[3]);
 	info->tts = ft_atoi(av[4]);
 	info->i_mort = 1;
+	info->ate = 0;
 	pthread_mutex_init(&info->m_ate, NULL);
 	pthread_mutex_init(&info->m_printf, NULL);
 	pthread_mutex_init(&info->mutex_mort, NULL);
