@@ -6,7 +6,7 @@
 /*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 12:32:25 by ilona             #+#    #+#             */
-/*   Updated: 2023/07/15 18:19:54 by ilona            ###   ########.fr       */
+/*   Updated: 2023/07/16 13:07:19 by ilona            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,8 +77,7 @@ int	ft_lancement_thread(t_struct *m_s)
 		i++;
 	}
 	check_death(m_s);
-	ft_destroy(m_s);
-	return (0);
+	return (ft_join(m_s));
 }
 
 // Utilise la fontion pthread_join sur tous les threads
@@ -96,5 +95,5 @@ int	ft_join(t_struct *ma_structure)
 		}
 		i++;
 	}
-	return (ft_join(ma_structure));
+	return (0);
 }

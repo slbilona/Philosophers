@@ -7,6 +7,7 @@ SRCS = main.c \
 	checker.c \
 	routine.c \
 	verif_mort.c \
+	utils_deux.c \
 	creation_thread.c \
 
 OBJS = $(addprefix $(OBJDIR)/, $(notdir $(SRCS:.c=.o)))

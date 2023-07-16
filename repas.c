@@ -6,7 +6,7 @@
 /*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 12:36:59 by ilona             #+#    #+#             */
-/*   Updated: 2023/07/15 18:21:14 by ilona            ###   ########.fr       */
+/*   Updated: 2023/07/16 14:28:44 by ilona            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,11 @@ int	ft_eat(t_philosophe *actuel)
 		if (ft_droitiers(actuel))
 			return (1);
 	if (ft_print(actuel, "is eating		🍝", 1))
+	{
+		pthread_mutex_unlock(actuel->fourchette_g);
+		pthread_mutex_unlock(&actuel->fourchette_d);
 		return (1);
+	}
 	ft_usleep(actuel->info->tte, actuel);
 	ft_lache_fourchette(actuel);
 	return (0);

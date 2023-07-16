@@ -6,7 +6,7 @@
 /*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 12:34:56 by ilona             #+#    #+#             */
-/*   Updated: 2023/07/15 17:59:06 by ilona            ###   ########.fr       */
+/*   Updated: 2023/07/16 13:24:27 by ilona            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,49 +70,6 @@ void	ft_usleep(int tmp, t_philosophe *philo)
 	{
 		usleep(500);
 		gettimeofday(&actuel, NULL);
-	}
-}
-
-// void	ft_usleep(int tmp, t_philosophe *philo)
-// {
-// 	long			debut;
-// 	long			actuel;
-// 	struct timeval	deb;
-
-// 	gettimeofday(&deb, NULL);
-// 	debut = ft_time2(deb);
-// 	actuel = debut;
-// 	while (tmp > (actuel - debut) && ft_verif_philos(philo))
-// 	{
-// 		usleep(100);
-// 		actuel = ft_time2(deb);
-// 	}
-// }
-// long int	ft_time2(struct timeval debut)
-// {
-// 	struct timeval	rn;
-
-// 	gettimeofday(&rn, NULL);
-// 	return ((rn.tv_usec - debut.tv_usec) / 1000);
-// }
-
-void	ft_destroy(t_struct *m_s)
-{
-	int	i;
-
-	i = 0;
-	pthread_mutex_destroy(&m_s->info.m_ate);
-	pthread_mutex_destroy(&m_s->info.m_printf);
-	pthread_mutex_destroy(&m_s->info.mutex_mort);
-	if (m_s->tab)
-	{
-		while (i < m_s->info.nb_de_philos)
-		{
-			pthread_mutex_destroy(&m_s->tab[i].fourchette_d);
-			pthread_mutex_destroy(&m_s->tab[i].mutex);
-			i++;
-		}
-		free(m_s->tab);
 	}
 }
 

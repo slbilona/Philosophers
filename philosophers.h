@@ -6,7 +6,7 @@
 /*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 12:36:38 by ilona             #+#    #+#             */
-/*   Updated: 2023/07/15 18:21:30 by ilona            ###   ########.fr       */
+/*   Updated: 2023/07/16 13:25:08 by ilona            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,9 @@ typedef struct s_info
 	int						nb_de_philos;
 	struct timeval			debut;
 	pthread_mutex_t			m_ate;
+	pthread_mutex_t			m_stop;
 	pthread_mutex_t			m_printf;
 	pthread_mutex_t			mutex_mort;
-	pthread_mutex_t			m_stop;
 	struct s_philosophes	**actuel_philo;
 }	t_info;
 
@@ -78,10 +78,14 @@ void			ft_init_tab(t_struct *ma_structure);
 
 int				ft_atoi(const char *nptr);
 int				ft_print(t_philosophe *actuel, char *str, int eat_or_not);
-void			ft_destroy(t_struct *m_s);
 void			ft_usleep(int tmp, t_philosophe *philo);
 long int		ft_time(t_philosophe *philo);
 long int		ft_time2(struct timeval debut);
+
+// Utils 2
+
+void			ft_destroy(t_struct *m_s);
+void			ft_destroy_mutex(t_philosophe *actuel);
 
 //	Repas
 
