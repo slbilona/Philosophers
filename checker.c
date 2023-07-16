@@ -6,7 +6,7 @@
 /*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 22:10:32 by ilselbon          #+#    #+#             */
-/*   Updated: 2023/07/16 16:41:38 by ilona            ###   ########.fr       */
+/*   Updated: 2023/07/16 17:48:09 by ilona            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,20 +69,25 @@ void	ft_init_info(char **av, t_info *info)
 int	ft_verif_args(int ac, char **av, t_info *info)
 {
 	if (!ft_chiffres(av, 1, 0))
-		return (printf("Erreur : les arguments doivent etre des nombres\n"), 1);
+		return (printf
+			("Erreur : les arguments doivent etre des nombres\n"), 1);
 	ft_init_info(av, info);
 	if (ac == 6)
 	{
 		info->notepme = ft_atoi(av[5]);
 		if (info->notepme < 0)
-			return (printf("Erreur : aucun argument ne peut etre inferieur a 0.\n"), 1);
+			return (printf
+				("Erreur : aucun argument ne peut etre inferieur a 0.\n"), 1);
 	}
 	else
 		info->notepme = -1;
-	if (info->nb_de_philos < 0 || info->ttd < 0 || info->tte < 0 || info->tts < 0)
-		return (printf("Erreur : aucun argument ne peut etre inferieur a 0.\n"), 1);
+	if (info->nb_de_philos < 0 || info->ttd < 0
+		|| info->tte < 0 || info->tts < 0)
+		return (printf
+			("Erreur : aucun argument ne peut etre inferieur a 0.\n"), 1);
 	else if (info->nb_de_philos > 1024)
-		return (printf("Erreur : il ne peut pas y avoir plus de 1024 philosophes.\n"), 1);
+		return (printf
+			("Erreur : il ne peut pas y avoir plus de 1024 philosophes.\n"), 1);
 	else if (info->nb_de_philos == 0)
 		return (printf("Erreur : il n'y a pas de philosophes\n"), 1);
 	return (0);
