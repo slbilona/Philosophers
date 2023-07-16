@@ -6,7 +6,7 @@
 /*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 05:32:50 by ilselbon          #+#    #+#             */
-/*   Updated: 2023/07/16 15:13:31 by ilona            ###   ########.fr       */
+/*   Updated: 2023/07/16 17:43:53 by ilona            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,28 +42,50 @@ int	ft_verif_philos(t_philosophe *actuel)
 	pthread_mutex_lock(&actuel->info->mutex_mort);
 	ret = actuel->info->i_mort;
 	pthread_mutex_unlock(&actuel->info->mutex_mort);
-	
+	pthread_mutex_lock(&actuel->info->m_ate);
+	if (actuel->info->i_ate == 0 && ret == 1)
+		ret = 0;
+	pthread_mutex_unlock(&actuel->info->m_ate);
 	return (ret);
 }
 
-void	check_death(t_struct *ma_structure)
+void	check_death(t_struct *m_s)
 {
 	int	i;
+	int	j;
 
 	while (1)
 	{
 		i = 0;
-		while (i < ma_structure->info.nb_de_philos)
+		j = 0;
+		while (i < m_s->info.nb_de_philos)
 		{
-			pthread_mutex_lock(&ma_structure->info.m_stop);
-			if (ft_mort(&ma_structure->tab[i]))
+			pthread_mutex_lock(&m_s->info.m_stop);
+			if (ft_mort(&m_s->tab[i]))
 			{
-				pthread_mutex_unlock(&ma_structure->info.m_stop);
+				pthread_mutex_unlock(&m_s->info.m_stop);
 				return ;
 			}
-			pthread_mutex_unlock(&ma_structure->info.m_stop);
-			
+			pthread_mutex_unlock(&m_s->info.m_stop);
+			pthread_mutex_lock(&m_s->tab[i].mutex);
+			if (m_s->tab[i].i_ate == 1)
+				j++;
+			pthread_mutex_unlock(&m_s->tab[i].mutex);
 			i++;
 		}
+		if (ft_check_death_deux(m_s, j))
+			return ;
 	}
+}
+
+int	ft_check_death_deux(t_struct *m_s, int j)
+{
+	if (j == m_s->info.nb_de_philos)
+	{
+		pthread_mutex_lock(&m_s->info.m_ate);
+		m_s->info.i_ate = 0;
+		pthread_mutex_unlock(&m_s->info.m_ate);
+		return (1);
+	}
+	return (0);
 }

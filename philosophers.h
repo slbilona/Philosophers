@@ -6,7 +6,7 @@
 /*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 12:36:38 by ilona             #+#    #+#             */
-/*   Updated: 2023/07/16 14:46:27 by ilona            ###   ########.fr       */
+/*   Updated: 2023/07/16 17:42:18 by ilona            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,8 @@ int				ft_droitiers(t_philosophe *actuel);
 // Verif Mort
 
 int				ft_mort(t_philosophe *actuel);
+int				ft_check_death_deux(t_struct *m_s, int j);
 int				ft_verif_philos(t_philosophe *actuel);
-void			check_death(t_struct *ma_structure);
+void			check_death(t_struct *m_s);
 
 #endif

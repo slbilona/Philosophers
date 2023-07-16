@@ -6,7 +6,7 @@
 /*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 22:10:32 by ilselbon          #+#    #+#             */
-/*   Updated: 2023/07/16 14:42:25 by ilona            ###   ########.fr       */
+/*   Updated: 2023/07/16 16:41:38 by ilona            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int	ft_chiffres(char **av, int j, int i)
 // Initialise la structure info
 void	ft_init_info(char **av, t_info *info)
 {
-	info->i_ate = 0;
+	info->i_ate = 1;
 	info->i_mort = 1;
 	info->ttd = ft_atoi(av[2]);
 	info->tte = ft_atoi(av[3]);
