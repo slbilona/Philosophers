@@ -6,7 +6,7 @@
 /*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 12:36:59 by ilona             #+#    #+#             */
-/*   Updated: 2023/07/16 14:28:44 by ilona            ###   ########.fr       */
+/*   Updated: 2023/07/16 15:30:39 by ilona            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void	ft_compte_repas(t_philosophe *actuel)
 		if (actuel->nb_de_repas == actuel->info->notepme)
 		{
 			printf("%d ate.\n", actuel->i);
-			actuel->ate = 1;
+			actuel->i_ate = 1;
 		}
 		pthread_mutex_unlock(&actuel->mutex);
 	}
@@ -75,6 +75,7 @@ int	ft_eat(t_philosophe *actuel)
 		return (1);
 	}
 	ft_usleep(actuel->info->tte, actuel);
+	ft_compte_repas(actuel);
 	ft_lache_fourchette(actuel);
 	return (0);
 }

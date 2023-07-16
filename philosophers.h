@@ -6,7 +6,7 @@
 /*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 12:36:38 by ilona             #+#    #+#             */
-/*   Updated: 2023/07/16 13:25:08 by ilona            ###   ########.fr       */
+/*   Updated: 2023/07/16 14:46:27 by ilona            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ typedef struct s_info
 	int						ttd;
 	int						tte;
 	int						tts;
-	int						ate;
+	int						i_ate;
 	int						index;
 	int						i_mort;
 	int						notepme;
@@ -43,7 +43,7 @@ typedef struct s_philosophes
 	int						i;
 	int						vie;
 	int						sdk;
-	int						ate;
+	int						i_ate;
 	int						nb_de_repas;
 	void					*fourchette_g;
 	long int				time_of_death;

@@ -6,7 +6,7 @@
 /*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 05:32:50 by ilselbon          #+#    #+#             */
-/*   Updated: 2023/07/16 14:24:48 by ilona            ###   ########.fr       */
+/*   Updated: 2023/07/16 15:13:31 by ilona            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ int	ft_verif_philos(t_philosophe *actuel)
 	pthread_mutex_lock(&actuel->info->mutex_mort);
 	ret = actuel->info->i_mort;
 	pthread_mutex_unlock(&actuel->info->mutex_mort);
+	
 	return (ret);
 }
 
@@ -61,6 +62,7 @@ void	check_death(t_struct *ma_structure)
 				return ;
 			}
 			pthread_mutex_unlock(&ma_structure->info.m_stop);
+			
 			i++;
 		}
 	}

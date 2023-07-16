@@ -6,7 +6,7 @@
 /*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 12:32:25 by ilona             #+#    #+#             */
-/*   Updated: 2023/07/16 13:07:19 by ilona            ###   ########.fr       */
+/*   Updated: 2023/07/16 14:48:45 by ilona            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,17 +19,17 @@ void	ft_init_tab(t_struct *ma_structure)
 	i = 0;
 	while (i < ma_structure->info.nb_de_philos)
 	{
+		ma_structure->tab[i].vie = 0;
+		ma_structure->tab[i].sdk = 3;
+		ma_structure->tab[i].philo = i;
+		ma_structure->tab[i].i_ate = 0;
+		ma_structure->tab[i].i = i + 1;
+		ma_structure->tab[i].nb_de_repas = 0;
+		ma_structure->tab[i].fourchette_g = NULL;
+		ma_structure->tab[i].info = &ma_structure->info;
 		pthread_mutex_init(&ma_structure->tab[i].m_tod, NULL);
 		pthread_mutex_init(&ma_structure->tab[i].mutex, NULL);
 		pthread_mutex_init(&ma_structure->tab[i].fourchette_d, NULL);
-		ma_structure->tab[i].i = i + 1;
-		ma_structure->tab[i].vie = 0;
-		ma_structure->tab[i].sdk = 3;
-		ma_structure->tab[i].nb_de_repas = 0;
-		ma_structure->tab[i].fourchette_g = NULL;
-		ma_structure->tab[i].philo = i;
-		ma_structure->tab[i].ate = 0;
-		ma_structure->tab[i].info = &ma_structure->info;
 		pthread_mutex_lock(&ma_structure->tab[i].mutex);
 		ma_structure->tab[i].time_of_death = ma_structure->info.ttd;
 		pthread_mutex_unlock(&ma_structure->tab[i].mutex);
