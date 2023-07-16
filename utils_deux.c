@@ -6,12 +6,13 @@
 /*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 13:24:03 by ilona             #+#    #+#             */
-/*   Updated: 2023/07/16 14:34:24 by ilona            ###   ########.fr       */
+/*   Updated: 2023/07/16 19:20:41 by ilona            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
+// Détruit tous les mutex
 void	ft_destroy(t_struct *m_s)
 {
 	int	i;

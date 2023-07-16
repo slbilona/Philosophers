@@ -6,12 +6,13 @@
 /*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 12:32:25 by ilona             #+#    #+#             */
-/*   Updated: 2023/07/16 17:31:31 by ilona            ###   ########.fr       */
+/*   Updated: 2023/07/16 19:16:54 by ilona            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
+// Initialise le tableau de strucutures
 void	ft_init_tab(t_struct *ma_structure)
 {
 	int	i;
@@ -37,6 +38,7 @@ void	ft_init_tab(t_struct *ma_structure)
 	}
 }
 
+// Crée le tableau de structures
 int	ft_creation_table(t_struct *m_s)
 {
 	int	i;

@@ -6,13 +6,13 @@
 /*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 12:36:59 by ilona             #+#    #+#             */
-/*   Updated: 2023/07/16 17:44:36 by ilona            ###   ########.fr       */
+/*   Updated: 2023/07/16 19:19:30 by ilona            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-//
+// Fonction principale de chaque thread
 void	*ft_philo(void *philo)
 {
 	t_philosophe	*tab;
@@ -42,6 +42,7 @@ void	*ft_philo(void *philo)
 	return (NULL);
 }
 
+// Compte le nombre de repas qu'a pris le philosophe
 void	ft_compte_repas(t_philosophe *actuel)
 {
 	if (actuel->info->notepme != -1)
@@ -77,6 +78,7 @@ int	ft_eat(t_philosophe *actuel)
 	return (0);
 }
 
+// Libère les fouchettes
 void	ft_lache_fourchette(t_philosophe *actuel)
 {
 	pthread_mutex_unlock(actuel->fourchette_g);

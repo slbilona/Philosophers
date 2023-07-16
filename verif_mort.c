@@ -6,7 +6,7 @@
 /*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 05:32:50 by ilselbon          #+#    #+#             */
-/*   Updated: 2023/07/16 17:43:53 by ilona            ###   ########.fr       */
+/*   Updated: 2023/07/16 19:27:08 by ilona            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ int	ft_mort(t_philosophe *actuel)
 	return (stop);
 }
 
+// Verifie si un philo est mort ou si tous les philo ont suffisament mangé
 int	ft_verif_philos(t_philosophe *actuel)
 {
 	int	ret;
@@ -49,6 +50,7 @@ int	ft_verif_philos(t_philosophe *actuel)
 	return (ret);
 }
 
+// Verifie si un philo est mort ou si tous les philo ont suffisament mangé
 void	check_death(t_struct *m_s)
 {
 	int	i;

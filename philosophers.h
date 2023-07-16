@@ -6,7 +6,7 @@
 /*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 12:36:38 by ilona             #+#    #+#             */
-/*   Updated: 2023/07/16 17:42:18 by ilona            ###   ########.fr       */
+/*   Updated: 2023/07/16 19:25:54 by ilona            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,17 +80,17 @@ int				ft_atoi(const char *nptr);
 int				ft_print(t_philosophe *actuel, char *str, int eat_or_not);
 void			ft_usleep(int tmp, t_philosophe *philo);
 long int		ft_time(t_philosophe *philo);
-long int		ft_time2(struct timeval debut);
+long int		ft_time_diff_ms(struct timeval debut, struct timeval actuel);
 
 // Utils 2
 
 void			ft_destroy(t_struct *m_s);
-void			ft_destroy_mutex(t_philosophe *actuel);
 
 //	Repas
 
 int				ft_eat(t_philosophe *actuel);
 void			*ft_philo(void *philo);
+void			ft_compte_repas(t_philosophe *actuel);
 void			ft_lache_fourchette(t_philosophe *actuel);
 
 // Routine

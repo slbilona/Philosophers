@@ -6,13 +6,13 @@
 /*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 12:34:56 by ilona             #+#    #+#             */
-/*   Updated: 2023/07/16 13:24:27 by ilona            ###   ########.fr       */
+/*   Updated: 2023/07/16 19:22:12 by ilona            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-//transforme une string en int
+// Transforme une string en int
 int	ft_atoi(const char *nptr)
 {
 	int	result;
@@ -59,6 +59,7 @@ long int	ft_time_diff_ms(struct timeval debut, struct timeval actuel)
 	return (diff_ms);
 }
 
+// Fonction usleep recréée en millisecondes
 void	ft_usleep(int tmp, t_philosophe *philo)
 {
 	struct timeval	debut;
@@ -73,6 +74,7 @@ void	ft_usleep(int tmp, t_philosophe *philo)
 	}
 }
 
+// Print en utilisant des mutex
 int	ft_print(t_philosophe *actuel, char *str, int eat_or_not)
 {
 	pthread_mutex_lock(&actuel->info->m_printf);
