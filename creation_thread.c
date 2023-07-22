@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   creation_thread.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
+/*   By: ilselbon <ilselbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 12:32:25 by ilona             #+#    #+#             */
-/*   Updated: 2023/07/16 19:16:54 by ilona            ###   ########.fr       */
+/*   Updated: 2023/07/23 01:39:46 by ilselbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ int	ft_creation_table(t_struct *m_s)
 		i--;
 	}
 	ft_lancement_thread(m_s);
-	ft_destroy(m_s);
+	// ft_destroy(m_s);
 	return (0);
 }
 
@@ -77,6 +77,11 @@ int	ft_lancement_thread(t_struct *m_s)
 			return (1);
 		}
 		i++;
+	}
+	if (m_s->info.nb_de_philos == 1)
+	{
+		check_death(m_s);
+		return (0);
 	}
 	check_death(m_s);
 	return (ft_join(m_s));

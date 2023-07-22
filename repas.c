@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   repas.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
+/*   By: ilselbon <ilselbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/06 12:36:59 by ilona             #+#    #+#             */
-/*   Updated: 2023/07/16 19:19:30 by ilona            ###   ########.fr       */
+/*   Updated: 2023/07/23 00:26:53 by ilselbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	*ft_philo(void *philo)
 		}
 		if (tab->sdk == 1 && ft_verif_philos(tab))
 		{
-			if (ft_print(tab, "is thinking		🤔", 0))
+			if (ft_print(tab, "is thinking"/*		🤔"*/, 0))
 				return (NULL);
 			tab->sdk = 3;
 		}
@@ -66,7 +66,7 @@ int	ft_eat(t_philosophe *actuel)
 	else
 		if (ft_droitiers(actuel))
 			return (1);
-	if (ft_print(actuel, "is eating		🍝", 1))
+	if (ft_print(actuel, "is eating"/*		🍝"*/, 1))
 	{
 		pthread_mutex_unlock(actuel->fourchette_g);
 		pthread_mutex_unlock(&actuel->fourchette_d);

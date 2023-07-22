@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   verif_mort.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ilona <ilona@student.42.fr>                +#+  +:+       +#+        */
+/*   By: ilselbon <ilselbon@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/11 05:32:50 by ilselbon          #+#    #+#             */
-/*   Updated: 2023/07/16 19:27:08 by ilona            ###   ########.fr       */
+/*   Updated: 2023/07/23 01:26:52 by ilselbon         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	ft_mort(t_philosophe *actuel)
 		pthread_mutex_unlock(&actuel->info->mutex_mort);
 		stop = 1;
 		pthread_mutex_lock(&actuel->info->m_printf);
-		printf(" %ld	%d	died			💀\n", ft_time(actuel), actuel->i);
+		printf(" %ld	%d	died\n"/*			💀"*/, ft_time(actuel), actuel->i);
 		pthread_mutex_unlock(&actuel->info->m_printf);
 	}
 	return (stop);

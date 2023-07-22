@@ -16,7 +16,7 @@ CC = gcc
 
 CFLAGS = -g -Wall -Werror -Wextra -pthread
 
-NAME = philosophers
+NAME = philo
 
 all : $(NAME)
 
